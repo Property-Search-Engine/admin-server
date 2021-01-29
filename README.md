@@ -7,7 +7,7 @@
     <img alt="MIT License" src="https://img.shields.io/github/license/Property-Search-Engine/admin-server" />
   </a>
 
-  <img alt="node-build" src="https://img.shields.io/github/workflow/status/security-union/armore-server/NodeJS?logo=node.js" />
+  <img alt="node-build" src="https://img.shields.io/github/workflow/status/Property-Search-Engine/admin-server/NodeJS?logo=node.js" />
 
   <img alt="pr" src="https://img.shields.io/github/issues-pr/Property-Search-Engine/admin-server" />
   <img alt="issues" src="https://img.shields.io/github/issues/Property-Search-Engine/admin-server" />
