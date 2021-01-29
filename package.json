@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node src/index.js", 
+    "start": "node src/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "dev": "nodemon ./src/index.js"
@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.4.2",
     "helmet": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.7.1",
