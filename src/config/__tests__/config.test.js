@@ -25,7 +25,7 @@ describe("App Config", () => {
           private_key_id: expect.any(String),
           private_key: expect.any(String),
           client_email: expect.any(String),
-          client_id: expect.any(Number),
+          client_id: expect.any(String),
           auth_uri: expect.any(String),
           token_uri: expect.any(String),
           auth_provider_x509_cert_url: expect.any(String),
