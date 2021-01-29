@@ -13,7 +13,7 @@ const errorMiddleware = require("./middleware/error-middleware");
 const userRouter = require("./routes/user-routes");
 const recipesRouter = require("./routes/recipes-routes");
 
-//const auth = require("./utils/auth/passport");
+const auth = require("./utils/auth/passport");
 
 app.use(morgan("dev"));
 app.use(helmet());
