@@ -4,6 +4,7 @@ const validator = require("validator");
 require("dotenv").config();
 
 const config = require("../config");
+const propertySchema = "" //require("./property-model")
 
 const UserSchema = new mongoose.Schema(
   {
@@ -32,11 +33,16 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "User last name is required"],
+      required: [true, "User password is required"],
       trim: true,
       minlength: 8,
     },
-    token: { type: String },
+    phone: {
+      type: String,
+      required: [true, "The phone number field is required"],
+      trim: true
+    },
+    properties: [propertySchema]
   },
   {
     timestamps: true,
