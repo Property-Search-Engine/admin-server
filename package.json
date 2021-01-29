@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node src/index.js", 
+    "start": "node src/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "dev": "nodemon ./src/index.js"
@@ -32,6 +32,9 @@
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.7.1",
     "mongoose": "^5.10.15",
+    "mongoose-type-email": "^1.1.2",
+    "mongoose-type-phone": "^1.0.1",
+    "mongoose-validator": "^2.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
