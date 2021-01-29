@@ -1,6 +1,10 @@
 const testServer = require("../../utils/tests/db-test-server");
 const { Property, Home, Office } = require("../properties-model.js");
-const { getHome, getOffice, getTestProperties } = require("../../utils/tests/seedTestDB");
+const {
+  getHome,
+  getOffice,
+  getTestProperties,
+} = require("../../utils/tests/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("properties"));
@@ -10,11 +14,7 @@ describe("properties models", () => {
   const testHome = getHome();
   const testOffice = getOffice();
 
-  it("hola", async() => {
-    expect(true).toBe(true);
-  })
-
-  it("can create a new home model", async() => {
+  it("can create a new home model", async () => {
     const home = await Home.create(testHome);
 
     expect(home._id).toBeDefined();
@@ -24,7 +24,6 @@ describe("properties models", () => {
     expect(home.bedRooms).toEqual(testHome.bedRooms);
     expect(home.bathRooms).toEqual(testHome.bathRooms);
     expect(home.description).toEqual(testHome.description);
-    expect(home.equipment).toEqual(testHome.equipment);
     expect(home.price).toEqual(testHome.price);
     expect(home.condition).toEqual(testHome.condition);
     expect(home.surface).toEqual(testHome.surface);
@@ -33,5 +32,20 @@ describe("properties models", () => {
     expect(home.filters).toContainEqual(testHome.filters[0]);
     expect(home.contactInfo).toBeTruthy();
     expect(home.address).toBeTruthy();
+  });
+
+  it("can create a new office model", async () => {
+    const office = await Office.create(testOffice);
+
+    expect(office._id).toBeDefined();
+    expect(office.kind).toEqual("Office");
+    expect(office.sold).toEqual(testOffice.sold);
+    expect(office.description).toEqual(testOffice.description);
+    expect(office.price).toEqual(testOffice.price);
+    expect(office.surface).toEqual(testOffice.surface);
+    expect(office.images).toContainEqual(testOffice.images[0]);
+    expect(office.filters).toContainEqual(testOffice.filters[0]);
+    expect(office.contactInfo).toBeTruthy();
+    expect(office.address).toBeTruthy();
   });
 });
