@@ -36,13 +36,7 @@ const UserSchema = new mongoose.Schema(
       required: [true, "User password is required"],
       trim: true,
       minlength: 8,
-    },
-    phone: {
-      type: String,
-      required: [true, "The phone number field is required"],
-      trim: true
-    },
-    properties: [propertySchema]
+    }
   },
   {
     timestamps: true,
