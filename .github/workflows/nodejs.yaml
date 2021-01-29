@@ -10,7 +10,7 @@ jobs:
     services:
       mongo:
         image: mongo:latest
-        environment:
+        env:
           MONGO_INITDB_ROOT_USERNAME: docker
           MONGO_INITDB_ROOT_PASSWORD: docker
           MONGO_INITDB_DATABASE: casame
