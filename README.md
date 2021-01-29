@@ -26,24 +26,32 @@ so you can easily follow the next steps!
 Before running the project, first copy the .env.save file:
 
 ```bash
-$ cp .env.save .env
+$ cp .env.example .env
 ```
 
+Then setup all the needed env variables and everything should be up to go!
 ## Run
 
 We provide you with a set of tools that can help you to automate the building
 and running process throughout makefiles and docker-compose files.
 
 ```bash
-$ docker-compose up --build -d
-# remember to execute `docker-compose down` when you are done
+$ make run_start
+# remember to execute `make down` when you are done
+```
+
+Run watch to restart the server on each change
+
+```bash
+$ make run_dev
+# remember to execute `make down` when you are done
 ```
 
 ## Test ✅
 
 ```bash
 $ cd nodejs
-$ make tests_run
+$ make test_watch
 ```
 
 This is going to run all the tests inside a docker environment. If you want to
@@ -53,7 +61,7 @@ have more control over how the tests are performed, you can run:
 
 ```bash
 $ cd nodejs
-$ make tests_up
+$ make up
 
 > $ npm run test # ex.
 ```
