@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-require("mongoose-type-email");
-require("mongoose-type-phone");
-var validate = require("mongoose-validator");
-
-const options = { discriminatorKey: "kind" };
+const validator = require("validator");
 
 const addressSchema = new mongoose.Schema({
   street: {
@@ -45,15 +41,33 @@ const addressSchema = new mongoose.Schema({
 });
 
 const contactInfoSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "employee",
+  },
   phone: {
-    type: mongoose.SchemaTypes.Phone,
+    type: String,
     required: true,
+    validate: {
+      validator: phone => validator.isMobilePhone(phone),
+      message: (props) => `${props.value} is not a valid phone number`,
+    }
   },
   email: {
-    type: mongoose.SchemaTypes.Email,
+    type: String,
     required: true,
+    lowercase: true,
+    validate: {
+      validator: email => validator.isEmail(email),
+      message: (props) => `${props.value} is not a valid email address`,
+    }
   },
 });
+
+const options = {
+  discriminatorKey: "kind",
+  timestamps: true
+};
 
 const PropertySchema = new mongoose.Schema(
   {
@@ -66,10 +80,6 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    publishDate: {
-      type: Date,
-      default: Date.now,
     },
     filters: [
       {
@@ -87,17 +97,16 @@ const PropertySchema = new mongoose.Schema(
     images: [
       {
         type: String,
-        validate: [
-          validate({
-            validator: "isURL",
-            message: "Images should have a valid url",
-          }),
-        ],
+        validate: {
+          validator: url => validator.isURL(url),
+          message: "Images should have a valid url",
+        }
       },
     ],
     address: {
       type: addressSchema,
       required: true,
+      unique: true,
     },
     contactInfo: {
       type: contactInfoSchema,
@@ -138,7 +147,7 @@ const HomeSchema = new mongoose.Schema({
   },
   condition: {
     type: String,
-    enum: ["new_homes", "good_condition", "needs_renovation"],
+    enum: ["new_home", "good_condition", "needs_renovation"],
     required: true,
   },
   surface: {
@@ -149,7 +158,6 @@ const HomeSchema = new mongoose.Schema({
 });
 
 //Office
-
 const OfficeSchema = new mongoose.Schema({
   building_use: {
     type: String,
@@ -159,9 +167,7 @@ const OfficeSchema = new mongoose.Schema({
 });
 
 const Property = mongoose.model("properties", PropertySchema);
-
 const Home = Property.discriminator("Home", HomeSchema);
-
 const Office = Property.discriminator("Office", OfficeSchema);
 
 module.exports = {
