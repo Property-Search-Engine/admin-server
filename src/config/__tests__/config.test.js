@@ -3,7 +3,7 @@ const config = require("../");
 describe("App Config", () => {
   test("App config is set-up", () => {
     expect(config).toEqual({
-      port: expect.any(Number),
+      port: expect.any(String),
       jwt: {
         secret: expect.any(String),
       },
