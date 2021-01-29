@@ -16,7 +16,6 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node src/index.js", 
     "test": "jest",
     "test:watch": "jest --watch",
     "dev": "nodemon ./src/index.js"
