@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: DockerFile
             cache_from:
-                - node:14.15-alpine
+                - node:latest
         env_file: .env
         environment:
             NODE_ENV: development
