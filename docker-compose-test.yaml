@@ -1,0 +1,27 @@
+version: "3"
+services:
+    node:
+        build:
+            context: .
+            dockerfile: DockerFile
+            cache_from:
+                - node:latest
+        env_file: .env
+        environment:
+            NODE_ENV: development
+            PORT: 5000
+            DEBUG: app:*
+        ports:
+            - 5000:5000
+        depends_on:
+            - mongo
+        volumes:
+            - ./:/app
+
+    mongo:
+        image: mongo:latest
+        # logging:
+        #     driver: "none"
+        env_file: .env
+        ports:
+            - 27017:27017
