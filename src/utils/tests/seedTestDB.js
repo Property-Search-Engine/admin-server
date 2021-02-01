@@ -39,24 +39,6 @@ const propertyMin = {
   },
 }
 
-const propertyMin = {
-  price: 200000,
-  description: "This is the house of your dreams",
-  image: "https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg",
-  address: {
-    street: "C/Sant Antoni",
-    number: 50,
-    city: "Cerdañola del Vallés",
-    state: "Catalonia",
-    country: "Spain",
-    coordinates: {
-      lat: 0.1234,
-      long: 1.2314
-    }
-  },
-  sold: false,
-}
-
 function getTestProperties() {
   return [
     {
