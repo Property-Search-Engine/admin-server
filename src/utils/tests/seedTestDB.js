@@ -24,6 +24,24 @@ const property = {
   sold: false,
 }
 
+const propertyMin = {
+  price: 200000,
+  description: "This is the house of your dreams",
+  image: "https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg",
+  address: {
+    street: "C/Sant Antoni",
+    number: 50,
+    city: "Cerdañola del Vallés",
+    state: "Catalonia",
+    country: "Spain",
+    coordinates: {
+      lat: 0.1234,
+      long: 1.2314
+    }
+  },
+  sold: false,
+}
+
 function getTestProperties() {
   return [
     {
@@ -40,6 +58,24 @@ function getTestProperties() {
       kind: "Office",
       building_use: "co_working",
       ...property
+    }
+  ];
+}
+
+function getTestEmployeeProperties() {
+  return [
+    {
+      kind: "Home",
+      homeType: "house",
+      bedRooms: 3,
+      bathRooms: 2,
+      surface: 200,
+      ...propertyMin
+    },
+    {
+      kind: "Office",
+      building_use: "co_working",
+      ...propertyMin
     }
   ];
 }
@@ -64,7 +100,7 @@ function getTestEmployees() {
       lastname: "house",
       email: "asdasdad@asdasd.com",
       phone: "323-2423-123",
-      properties: getTestProperties()
+      properties: getTestEmployeeProperties()
     },
   ];
 }

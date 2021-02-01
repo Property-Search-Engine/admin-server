@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const { PropertyMinSchema, HomeMinSchema } = require("./property-min")
-const { OfficeSchema } = require("./property")
+const { PropertyMinSchema, HomeMinSchema, OfficeMinSchema } = require("./property-min")
 
 const EmployeeSchema = new mongoose.Schema(
     {
@@ -33,9 +32,7 @@ const EmployeeSchema = new mongoose.Schema(
             required: [true, "The phone number field is required"],
             trim: true
         },
-        properties: [{
-            type: PropertyMinSchema
-        }]
+        properties: [PropertyMinSchema]
     },
     {
         timestamps: true,
@@ -43,6 +40,6 @@ const EmployeeSchema = new mongoose.Schema(
 );
 const propertyArr = EmployeeSchema.path("properties");
 propertyArr.discriminator("Home", HomeMinSchema);
-propertyArr.discriminator("Office", OfficeSchema);
+propertyArr.discriminator("Office", OfficeMinSchema);
 
 module.exports = EmployeeSchema

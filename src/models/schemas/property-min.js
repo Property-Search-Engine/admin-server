@@ -63,6 +63,14 @@ const HomeMinSchema = new mongoose.Schema({
     },
 });
 
+//Office
+const OfficeMinSchema = new mongoose.Schema({
+    building_use: {
+        type: String,
+        enum: ["private", "co_working", "security_system"],
+        required: true,
+    },
+});
 
 
-module.exports = { PropertyMinSchema, HomeMinSchema }
+module.exports = { PropertyMinSchema, HomeMinSchema, OfficeMinSchema }
