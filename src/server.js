@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const { json } = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
+const { authMiddleware } = require("./middleware/auth-middleware")
 
 require("dotenv").config();
 
