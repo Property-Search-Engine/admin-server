@@ -1,5 +1,5 @@
 const testServer = require("../../utils/tests/db-test-server");
-const { Property, Home, Office } = require("../properties-model.js");
+const { Home, Office } = require("../index");
 const {
   getHome,
   getOffice,

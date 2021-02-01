@@ -1,6 +1,6 @@
 const testServer = require("../../utils/tests/db-test-server");
-const Employee = require("../employee-model");
-const { getEmployeeModelTestEmployee } = require("../../utils/tests/seedTestDB");
+const { Employee } = require("../index");
+const { getTestEmployeeDP, getTestEmployeeNP, getTestEmployeeFP } = require("../../utils/tests/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("employees"));

@@ -1,11 +1,10 @@
+const mongoose = require("mongoose");
+const validator = require("validator");
 const { PropertyMinSchema, HomeMinSchema } = require("./property-min")
 const { OfficeSchema } = require("./property")
 
 const EmployeeSchema = new mongoose.Schema(
     {
-        _id: {
-            type: Mongoose.SchemaTypes.ObjectId
-        },
         firstname: {
             type: String,
             required: [true, "First name field is required"],
