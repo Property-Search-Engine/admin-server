@@ -4,6 +4,10 @@ const { PropertyMinSchema, HomeMinSchema, OfficeMinSchema } = require("./propert
 
 const EmployeeSchema = new mongoose.Schema(
     {
+        _id: {
+            type: mongoose.SchemaTypes.ObjectId,
+            required: true
+        },
         firstname: {
             type: String,
             required: [true, "First name field is required"],

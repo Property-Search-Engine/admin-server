@@ -5,15 +5,14 @@ const { addressSchema, options } = require("./property")
 
 const PropertyMinSchema = new mongoose.Schema(
     {
+        _id: {
+            type: mongoose.SchemaTypes.ObjectId,
+            required: true
+        },
         price: {
             type: Number,
             min: 0,
             required: true,
-        },
-        description: {
-            type: String,
-            required: true,
-            trim: true,
         },
         image: {
             type: String,
@@ -41,11 +40,6 @@ const PropertyMinSchema = new mongoose.Schema(
 
 // Home
 const HomeMinSchema = new mongoose.Schema({
-    homeType: {
-        type: String,
-        enum: ["flat_apartment", "house", "duplex", "penthouse"],
-        default: "house",
-    },
     bedRooms: {
         type: Number,
         min: 1,
@@ -65,9 +59,9 @@ const HomeMinSchema = new mongoose.Schema({
 
 //Office
 const OfficeMinSchema = new mongoose.Schema({
-    building_use: {
+    buildingUse: {
         type: String,
-        enum: ["private", "co_working", "security_system"],
+        enum: ["private", "coWorking", "securitySystem"],
         required: true,
     },
 });
