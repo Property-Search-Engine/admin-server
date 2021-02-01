@@ -3,7 +3,7 @@ const db = require("../../models");
 const property = {
   price: 200000,
   description: "This is the house of your dreams",
-  filters: ["pets_allowed"],
+  filters: ["petsAllowed"],
   images: ["https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg"],
   address: {
     street: "C/Sant Antoni",
@@ -21,7 +21,22 @@ const property = {
     phone: "7569283938",
     email: "patata@mail.com"
   },
-  sold: false,
+}
+
+const propertyMin = {
+  price: 200000,
+  image: "https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg",
+  address: {
+    street: "C/Sant Antoni",
+    number: 50,
+    city: "Cerdañola del Vallés",
+    state: "Catalonia",
+    country: "Spain",
+    coordinates: {
+      lat: 0.1234,
+      long: 1.2314
+    }
+  },
 }
 
 function getTestProperties() {
@@ -32,15 +47,62 @@ function getTestProperties() {
       bedRooms: 3,
       bathRooms: 2,
       equipment: "indifferent",
-      condition: "new_home",
+      condition: "newHome",
       surface: 200,
       ...property
     },
     {
       kind: "Office",
-      building_use: "co_working",
+      buildingUse: "coWorking",
       ...property
     }
+  ];
+}
+
+function getTestEmployeeProperties() {
+  return [
+    {
+      _id: "601829717ad3a0017f2eb8af",
+      kind: "Home",
+      bedRooms: 3,
+      bathRooms: 2,
+      surface: 200,
+      ...propertyMin
+    },
+    {
+      _id: "601829717ad3a0017f2eb8bf",
+      kind: "Office",
+      buildingUse: "coWorking",
+      ...propertyMin
+    }
+  ];
+}
+
+function getTestEmployees() {
+  return [
+    {
+      _id: "5d6ede6a0ba62570afcedd3a",
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+    },
+    {
+      _id: "5d6ede6a0ba62570afcedd3b",
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+      properties: []
+    },
+    {
+      _id: "5d6ede6a0ba62570afcedd3c",
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+      properties: getTestEmployeeProperties()
+    },
   ];
 }
 
