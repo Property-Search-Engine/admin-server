@@ -44,6 +44,31 @@ function getTestProperties() {
   ];
 }
 
+function getTestEmployees() {
+  return [
+    {
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+    },
+    {
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+      properties: []
+    },
+    {
+      firstname: "Home",
+      lastname: "house",
+      email: "asdasdad@asdasd.com",
+      phone: "323-2423-123",
+      properties: getTestProperties()
+    },
+  ];
+}
+
 // async function seedTestRecibesDB() {
 //   const testUser = getRecipesRoutesTestUser();
 
@@ -94,9 +119,20 @@ function getHome() {
 function getOffice() {
   return getTestProperties()[1];
 }
-
+function getTestEmployeeNP() {
+  return getTestEmployees()[0]
+}
+function getTestEmployeeDP() {
+  return getTestEmployees()[1]
+}
+function getTestEmployeeFP() {
+  return getTestEmployees()[2]
+}
 module.exports = {
   getTestProperties,
   getHome,
-  getOffice
+  getOffice,
+  getTestEmployeeNP,
+  getTestEmployeeDP,
+  getTestEmployeeFP
 };

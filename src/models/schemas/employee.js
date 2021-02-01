@@ -1,6 +1,7 @@
-const { PropertyMinSchema } = require("./property-min")
+const { PropertyMinSchema, HomeMinSchema } = require("./property-min")
+const { OfficeSchema } = require("./property")
 
-module.exports = new mongoose.Schema(
+const EmployeeSchema = new mongoose.Schema(
     {
         _id: {
             type: Mongoose.SchemaTypes.ObjectId
@@ -41,3 +42,8 @@ module.exports = new mongoose.Schema(
         timestamps: true,
     },
 );
+const propertyArr = EmployeeSchema.path("properties");
+propertyArr.discriminator("Home", HomeMinSchema);
+propertyArr.discriminator("Office", OfficeSchema);
+
+module.exports = EmployeeSchema

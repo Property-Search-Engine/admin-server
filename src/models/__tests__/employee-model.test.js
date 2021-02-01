@@ -7,24 +7,19 @@ afterEach(async () => await testServer.clearCollection("employees"));
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
-  const testEmployee = getEmployeeModelTestEmployee();
+  const testEmployeeNP = getTestEmployeeNP();
+  const testEmployeeDP = getTestEmployeeDP();
+  const testEmployeeFP = getTestEmployeeFP();
 
   it("can create a new employee model", async () => {
-    const employee = await Employee.create(testEmployee.employee);
+
+    const employee = await Employee.create(testEmployeeNP);
 
     expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployee.employee.firstname);
-    expect(employee.lastname).toBe(testEmployee.employee.lastname);
-    expect(employee.email).toBe(testEmployee.employee.email);
-    expect(employee.phone).toBe(testEmployee.employee.phone);
-  });
-  it("can create a new employee property", async () => {
-    const employee = await Employee.create(testEmployee.employee);
-
-    expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployee.employee.firstname);
-    expect(employee.lastname).toBe(testEmployee.employee.lastname);
-    expect(employee.email).toBe(testEmployee.employee.email);
-    expect(employee.phone).toBe(testEmployee.employee.phone);
+    expect(employee.firstname).toBe(testEmployeeNP.firstname);
+    expect(employee.lastname).toBe(testEmployeeNP.lastname);
+    expect(employee.email).toBe(testEmployeeNP.email);
+    expect(employee.phone).toBe(testEmployeeNP.phone);
+    expect(employee.properties).toBeDefined()
   });
 });

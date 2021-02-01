@@ -63,4 +63,6 @@ const HomeMinSchema = new mongoose.Schema({
     },
 });
 
+
+
 module.exports = { PropertyMinSchema, HomeMinSchema }
