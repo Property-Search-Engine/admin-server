@@ -3,6 +3,6 @@ require("dotenv").config();
 
 const EmployeeSchema = require("./schemas/employee")
 
-const Employee = mongoose.model("employee", EmployeeSchema);
+const Employee = mongoose.model("Employee", EmployeeSchema);
 
 module.exports = Employee;

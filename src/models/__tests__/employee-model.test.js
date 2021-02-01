@@ -43,7 +43,13 @@ describe("employee model", () => {
     expect(employee.email).toBe(testEmployeeNP.email);
     expect(employee.phone).toBe(testEmployeeNP.phone);
     expect(employee.properties).toHaveLength(2);
-    expect(employee.properties[0]).toMatchObject(testEmployeeFP.properties[0]);
-    expect(employee.properties[1]).toMatchObject(testEmployeeFP.properties[1]);
+
+    expect(employee.properties[0]).toMatchObject({
+      kind: "Home",
+    });
+    expect(employee.properties[1]).toMatchObject({
+      kind: "Office"
+    });
+
   });
 });
