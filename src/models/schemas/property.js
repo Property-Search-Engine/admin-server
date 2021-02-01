@@ -38,12 +38,13 @@ const addressSchema = new mongoose.Schema({
             required: true,
         },
     },
-});
+}, { _id: false });
 
+/** It gets fullfilled automatically from the controller */
 const contactInfoSchema = new mongoose.Schema({
     _id: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "employee",
+        ref: "Employee",
     },
     phone: {
         type: String,
@@ -85,10 +86,10 @@ const PropertySchema = new mongoose.Schema(
             {
                 type: String,
                 enum: [
-                    "pets_allowed",
+                    "petsAllowed",
                     "lift",
                     "garden",
-                    "air_conditioning",
+                    "airConditioning",
                     "terrace",
                     "swimming",
                 ],
@@ -127,7 +128,7 @@ const PropertySchema = new mongoose.Schema(
 const HomeSchema = new mongoose.Schema({
     homeType: {
         type: String,
-        enum: ["flat_apartment", "house", "duplex", "penthouse"],
+        enum: ["flatApartment", "house", "duplex", "penthouse"],
         default: "house",
     },
     bedRooms: {
@@ -142,12 +143,12 @@ const HomeSchema = new mongoose.Schema({
     },
     equipment: {
         type: String,
-        enum: ["indifferent", "fully_fitted_kitchen", "furnished"],
+        enum: ["indifferent", "fullyFittedKitchen", "furnished"],
         required: true,
     },
     condition: {
         type: String,
-        enum: ["new_home", "good_condition", "needs_renovation"],
+        enum: ["newHome", "goodCondition", "needsRenovation"],
         required: true,
     },
     surface: {
@@ -159,9 +160,9 @@ const HomeSchema = new mongoose.Schema({
 
 //Office
 const OfficeSchema = new mongoose.Schema({
-    building_use: {
+    buildingUse: {
         type: String,
-        enum: ["private", "co_working", "security_system"],
+        enum: ["private", "coWorking", "securitySystem"],
         required: true,
     },
 });
