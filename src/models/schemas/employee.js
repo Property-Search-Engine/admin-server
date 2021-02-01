@@ -34,7 +34,8 @@ const EmployeeSchema = new mongoose.Schema(
         phone: {
             type: String,
             required: [true, "The phone number field is required"],
-            trim: true
+            trim: true,
+            unique: true,
         },
         properties: [PropertyMinSchema]
     },

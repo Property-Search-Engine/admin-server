@@ -38,13 +38,13 @@ const addressSchema = new mongoose.Schema({
             required: true,
         },
     },
-}, { id: false });
+}, { _id: false });
 
 /** It gets fullfilled automatically from the controller */
 const contactInfoSchema = new mongoose.Schema({
     _id: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "employee",
+        ref: "Employee",
     },
     phone: {
         type: String,

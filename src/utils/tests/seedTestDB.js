@@ -62,6 +62,7 @@ function getTestProperties() {
 function getTestEmployeeProperties() {
   return [
     {
+      _id: "601829717ad3a0017f2eb8af",
       kind: "Home",
       bedRooms: 3,
       bathRooms: 2,
@@ -69,6 +70,7 @@ function getTestEmployeeProperties() {
       ...propertyMin
     },
     {
+      _id: "601829717ad3a0017f2eb8bf",
       kind: "Office",
       buildingUse: "coWorking",
       ...propertyMin

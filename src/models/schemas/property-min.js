@@ -7,6 +7,7 @@ const PropertyMinSchema = new mongoose.Schema(
     {
         _id: {
             type: mongoose.SchemaTypes.ObjectId,
+            ref: "Property",
             required: true
         },
         price: {

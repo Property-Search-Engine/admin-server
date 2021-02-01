@@ -7,7 +7,7 @@ const {
 } = require("./schemas/property")
 
 
-const Property = mongoose.model("properties", PropertySchema);
+const Property = mongoose.model("Property", PropertySchema);
 const Home = Property.discriminator("Home", HomeSchema);
 const Office = Property.discriminator("Office", OfficeSchema);
 
