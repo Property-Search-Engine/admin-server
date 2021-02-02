@@ -11,7 +11,7 @@ const app = express();
 
 const errorMiddleware = require("./middleware/error-middleware");
 const userRouter = require("./routes/user-routes");
-const recipesRouter = require("./routes/recipes-routes");
+const propertyRouter = require("./routes/property-routes");
 
 const auth = require("./utils/auth/passport");
 
@@ -27,8 +27,8 @@ app.use(
 
 app.use(auth.initialize);
 
-app.use(userRouter);
-app.use(recipesRouter);
+//app.use(userRouter);
+app.use("/properties", propertyRouter);
 
 app.use(errorMiddleware);
 
