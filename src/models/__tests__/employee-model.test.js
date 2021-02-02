@@ -1,6 +1,6 @@
-const testServer = require("../../utils/tests/db-test-server");
+const testServer = require("../../utils/mock/db-test-server");
 const { Employee } = require("../index");
-const { getTestEmployeeDP, getTestEmployeeNP, getTestEmployeeFP } = require("../../utils/tests/seedTestDB");
+const { getTestEmployeeDP, getTestEmployeeNP, getTestEmployeeFP } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("employees"));
@@ -50,6 +50,5 @@ describe("employee model", () => {
     expect(employee.properties[1]).toMatchObject({
       kind: "Office"
     });
-
   });
 });

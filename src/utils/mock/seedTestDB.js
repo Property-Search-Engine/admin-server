@@ -46,7 +46,7 @@ function getTestProperties() {
       homeType: "house",
       bedRooms: 3,
       bathRooms: 2,
-      equipment: "indifferent",
+      equipment: "full",
       condition: "newHome",
       surface: 200,
       ...property

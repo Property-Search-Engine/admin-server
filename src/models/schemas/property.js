@@ -143,7 +143,7 @@ const HomeSchema = new mongoose.Schema({
     },
     equipment: {
         type: String,
-        enum: ["indifferent", "fullyFittedKitchen", "furnished"],
+        enum: ['none', 'partial', 'full'],
         required: true,
     },
     condition: {
