@@ -5,6 +5,7 @@ const property = {
   description: "This is the house of your dreams",
   filters: ["petsAllowed"],
   images: ["https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg"],
+  surface: 200,
   contactInfo: {
     phone: "7569283938",
     email: "patata@mail.com"
@@ -21,7 +22,6 @@ function getTestProperties() {
       bathRooms: 2,
       equipment: "full",
       condition: "newHome",
-      surface: 200,
       address: {
         street: "C/Sant Antoni",
         number: 50,
