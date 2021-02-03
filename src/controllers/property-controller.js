@@ -2,10 +2,27 @@ const db = require("../models");
 
 async function searchProperty(req, res, next) {
     //TODO: Search property by filters
-    const { uid, email } = req.user;
+    const { uid } = req.user;
     const filters = getFilters(req);
+    const properties = await db.Employee.aggregate([
+        { $match: { "_id": uid } },
+        { $unwind: "$properties" },
+        {
+            $match: {
+                "grades.grade": { $gte: 90 }
+            }
+        },
+        { $replaceRoot: { newRoot: "$properties" } },
+    ])
+        .exec()
+        .catch(next);
 
-
+    return properties;
+    
+    // res.status(200).send({
+    //     data: properties,
+    //     error: null,
+    // });
 }
 
 function getPropertyById(req, res, next) {
