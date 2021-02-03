@@ -9,10 +9,8 @@ const baseProperties = {
 
 const baseDefaultProperties = {
     sold: false,
-    surface: undefined,
     maxPrice: Infinity,
     minPrice: 0,
-    publicationDate: 0,
     filters: [],
 }
 

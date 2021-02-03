@@ -3,7 +3,7 @@ function buildPropertyBaseMatchingRules(filters) {
         sold: filters.sold,
         surface: { $gte: filters.surface || 0 },
         price: { $gte: filters.minPrice, $lte: filters.maxPrice },
-        createdAt: { $gte: filters.publicationDate },
+        createdAt: filters.publicationDate && { $gte: filters.publicationDate } || { $exists: true },
         filters: filters.filters.length > 0 && { $in: filters.filters } || { $exists: true },
     }
 }

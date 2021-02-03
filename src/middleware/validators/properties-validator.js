@@ -25,7 +25,7 @@ const filtersSchema = Joi.object({
     surface: Joi.number().integer().min(0),
     minPrice: Joi.number().integer().min(0).default(0),
     maxPrice: Joi.number().integer().min(0).default(Infinity),
-    publicationDate: Joi.date().max('now').timestamp('javascript').default(0),
+    publicationDate: Joi.date().max('now').timestamp('javascript'),
     filters: stringArrayEnum(
         "petsAllowed",
         "lift",
@@ -40,8 +40,7 @@ const filtersSchema = Joi.object({
 
 async function validateSearchFilters(req, res, next) {
     try {
-        const filters = await filtersSchema.validateAsync(req.query);
-        req.filters = filters;
+        req.query = await filtersSchema.validateAsync(req.query);
         next();
     } catch (err) {
         res.status(400).send({

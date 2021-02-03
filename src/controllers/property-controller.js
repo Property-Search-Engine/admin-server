@@ -7,18 +7,18 @@ const {
 
 async function searchProperty(req, res, next) {
     const { uid } = req.employee;
-
+    const filters = req.query;
     const properties = await
-        (req.filters.kind == "Home" ?
+        (filters.kind == "Home" ?
             db.Home.find({
                 employee_id: uid,
-                ...buildPropertyBaseMatchingRules(req.filters),
-                ...buildHomeMatchingRules(req.filters)
+                ...buildPropertyBaseMatchingRules(filters),
+                ...buildHomeMatchingRules(filters)
             })
             : db.Office.find({
                 employee_id: uid,
-                ...buildPropertyBaseMatchingRules(req.filters),
-                ...buildOfficeMatchingRules(req.filters)
+                ...buildPropertyBaseMatchingRules(filters),
+                ...buildOfficeMatchingRules(filters)
             })
         )
             .sort({ created_at: -1 })

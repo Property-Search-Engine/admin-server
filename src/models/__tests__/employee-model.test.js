@@ -1,5 +1,5 @@
 const testServer = require("../../utils/mock/db-test-server");
-const { Employee, Home, Office } = require("../index");
+const { Employee } = require("../index");
 const { getTestEmployee2 } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
