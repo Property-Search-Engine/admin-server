@@ -1,24 +1,22 @@
 const db = require("../models");
+const { buildFiltersFromQuery, matchProperties } = require("../utils/properties/filters");
 
 async function searchProperty(req, res, next) {
-    //TODO: Search property by filters
-    const { uid } = req.user;
-    const filters = getFilters(req);
-    const properties = await db.Employee.aggregate([
-        { $match: { "_id": uid } },
-        { $unwind: "$properties" },
-        {
-            $match: {
-                "grades.grade": { $gte: 90 }
-            }
-        },
-        { $replaceRoot: { newRoot: "$properties" } },
-    ])
-        .exec()
-        .catch(next);
+    // const { uid } = req.user;
+    // const filters = buildFiltersFromQuery(req);
+    // const properties = await db.Employee.aggregate([
+    //     { $match: { "_id": uid } },
+    //     { $unwind: "$properties" },
+    //     {
+    //         $match: matchProperties(filters),
+    //     },
+    //     { $replaceRoot: { newRoot: "$properties" } },
+    // ])
+    //     .exec()
+    //     .catch(next);
 
-    return properties;
-    
+    // return properties;
+
     // res.status(200).send({
     //     data: properties,
     //     error: null,
@@ -45,49 +43,6 @@ function setPropertyAsSold(req, res, next) {
     //TODO: Patch property to be sold
 }
 
-function getFilters(req) {
-    const {
-        type = "Home",
-        sold = false,
-        surface,
-        maxPrice,
-        minPrice = 0,
-        publicationDate,
-        filters = [],
-        // Home Filters
-        homeType = "house",
-        bedRooms,
-        bathRooms,
-        equipment,
-        condition,
-        // Office filters
-        buildingUse
-    } = req.query;
-
-    const property = {
-        type,
-        sold,
-        surface,
-        maxPrice,
-        minPrice,
-        publicationDate,
-        filters,
-    };
-
-    return type == "Home" ?
-        // Home
-        {
-            ...property,
-            homeType,
-            bedRooms,
-            bathRooms,
-            equipment,
-            condition
-        } :
-        // Office
-        { ...property, buildingUse };
-}
-
 module.exports = {
     searchProperty,
     getPropertyById,
@@ -95,7 +50,6 @@ module.exports = {
     createProperty,
     deleteProperty,
     setPropertyAsSold,
-    getFilters
 };
 
 

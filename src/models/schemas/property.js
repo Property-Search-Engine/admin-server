@@ -42,10 +42,6 @@ const addressSchema = new mongoose.Schema({
 
 /** It gets fullfilled automatically from the controller */
 const contactInfoSchema = new mongoose.Schema({
-    _id: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "Employee",
-    },
     phone: {
         type: String,
         required: true,
@@ -63,7 +59,7 @@ const contactInfoSchema = new mongoose.Schema({
             message: (props) => `${props.value} is not a valid email address`,
         }
     },
-});
+}, { _id: false });
 
 const options = {
     discriminatorKey: "kind",
@@ -72,6 +68,10 @@ const options = {
 
 const PropertySchema = new mongoose.Schema(
     {
+        employee_id: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Employee",
+        },
         price: {
             type: Number,
             min: 0,

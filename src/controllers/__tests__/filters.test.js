@@ -1,4 +1,4 @@
-const { getFilters } = require("../property-controller");
+const { buildFiltersFromQuery } = require("../../utils/properties/filters");
 const { getMockFiltersDirtyHomeQuery,
     getMockFiltersDirtyOfficeQuery,
     getDefaultOffice,
@@ -10,29 +10,29 @@ const { getMockFiltersDirtyHomeQuery,
 describe("Unit test get filters", () => {
     it("can parse home filters", () => {
         const req = getMockFiltersDirtyHomeQuery();
-        const filters = getFilters(req);
+        const filters = buildFiltersFromQuery(req);
         expect(filters).toStrictEqual(getHome());
     });
 
     it("can parse default home filters", () => {
         const req = {
-            query: { type: "Home" }
+            query: { kind: "Home" }
         };
-        const filters = getFilters(req);
+        const filters = buildFiltersFromQuery(req);
         expect(filters).toStrictEqual(getDefaultHome());
     })
 
     it("can parse office filters", () => {
         const req = getMockFiltersDirtyOfficeQuery();
-        const filters = getFilters(req);
+        const filters = buildFiltersFromQuery(req);
         expect(filters).toStrictEqual(getOffice());
     });
 
     it("can parse default home filters", () => {
         const req = {
-            query: { type: "Office" }
+            query: { kind: "Office" }
         };
-        const filters = getFilters(req);
+        const filters = buildFiltersFromQuery(req);
         expect(filters).toStrictEqual(getDefaultOffice());
     })
 

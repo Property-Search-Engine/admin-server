@@ -22,10 +22,13 @@ describe("Test properties aggregation", () => {
     // TODO: property tests
     it("can replace the root", async () => {
         // const employee = await db.Employee.create(getTestEmployeeFP());
-        // const req = { user: { uid: employee._id }, query: { type: "Home" } };
+
+        // const req = { user: { uid: employee._id }, query: { kind: "Home" } };
         // const properties = await searchProperty(req);
+        
+        // console.log(properties);
         // expect(employee.properties[0]).toMatchObject(properties[0]);
-        // expect(employee.properties[1]).toMatchObject(properties[1]);
-        expect(true).toBeTruthy();
+       // expect(employee.properties[1]).toMatchObject(properties[1]);
+       expect(true).toBeTruthy();
     })
 })

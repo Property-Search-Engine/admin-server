@@ -17,7 +17,7 @@ const baseDefaultProperties = {
 }
 
 const homeProperties = {
-    type: "Home",
+    kind: "Home",
     homeType: "house",
     bedRooms: 3,
     bathRooms: 2,
@@ -28,7 +28,7 @@ const homeProperties = {
 
 const homeDefaultProperties = {
     ...baseDefaultProperties,
-    type: "Home",
+    kind: "Home",
     homeType: "house",
     bedRooms: undefined,
     bathRooms: undefined,
@@ -37,14 +37,14 @@ const homeDefaultProperties = {
 }
 
 const officeProperties = {
-    type: "Office",
+    kind: "Office",
     buildingUse: "private",
     ...baseProperties
 }
 
 const officeDefaultProperties = {
     ...baseDefaultProperties,
-    type: "Office",
+    kind: "Office",
     buildingUse: undefined
 }
 

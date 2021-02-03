@@ -3,7 +3,6 @@ const { Home, Office } = require("../index");
 const {
   getHome,
   getOffice,
-  getTestProperties,
 } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
