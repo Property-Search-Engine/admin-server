@@ -1,26 +1,24 @@
 const db = require("../models");
-const { 
-    buildFiltersFromQuery, 
-    buildPropertyBaseMatchingRules, 
-    buildHomeMatchingRules, 
+const {
+    buildPropertyBaseMatchingRules,
+    buildHomeMatchingRules,
     buildOfficeMatchingRules
 } = require("../utils/properties/filters");
 
 async function searchProperty(req, res, next) {
     const { uid } = req.employee;
-    const filters = buildFiltersFromQuery(req);
 
     const properties = await
-        (filters.kind == "Home" ?
+        (req.filters.kind == "Home" ?
             db.Home.find({
                 employee_id: uid,
-                ...buildPropertyBaseMatchingRules(filters),
-                ...buildHomeMatchingRules(filters)
+                ...buildPropertyBaseMatchingRules(req.filters),
+                ...buildHomeMatchingRules(req.filters)
             })
             : db.Office.find({
                 employee_id: uid,
-                ...buildPropertyBaseMatchingRules(filters),
-                ...buildOfficeMatchingRules(filters)
+                ...buildPropertyBaseMatchingRules(req.filters),
+                ...buildOfficeMatchingRules(req.filters)
             })
         )
             .sort({ created_at: -1 })
