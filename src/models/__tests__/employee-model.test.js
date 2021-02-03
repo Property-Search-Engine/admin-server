@@ -1,25 +1,21 @@
-const testServer = require("../../utils/tests/db-test-server");
-const { Employee } = require("../index");
-const { getTestEmployeeDP, getTestEmployeeNP, getTestEmployeeFP } = require("../../utils/tests/seedTestDB");
+const testServer = require("../../utils/mock/db-test-server");
+const { Employee, Home, Office } = require("../index");
+const { getTestEmployee1, getTestEmployee2, getHome, getOffice } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("employees"));
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
-  const testEmployeeNP = getTestEmployeeNP();
-  const testEmployeeDP = getTestEmployeeDP();
-  const testEmployeeFP = getTestEmployeeFP();
 
-  it("can create a new employee model", async () => {
-
-    const employee = await Employee.create(testEmployeeNP);
+  it("can create a new employee", async () => {
+    const testEmployee = getTestEmployee2();
+    const employee = await Employee.create(testEmployee);
 
     expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployeeNP.firstname);
-    expect(employee.lastname).toBe(testEmployeeNP.lastname);
-    expect(employee.email).toBe(testEmployeeNP.email);
-    expect(employee.phone).toBe(testEmployeeNP.phone);
-    expect(employee.properties).toBeDefined()
+    expect(employee.firstname).toBe(testEmployee.firstname);
+    expect(employee.lastname).toBe(testEmployee.lastname);
+    expect(employee.email).toBe(testEmployee.email);
+    expect(employee.phone).toBe(testEmployee.phone);
   });
 });

@@ -1,10 +1,9 @@
-const testServer = require("../../utils/tests/db-test-server");
+const testServer = require("../../utils/mock/db-test-server");
 const { Home, Office } = require("../index");
 const {
   getHome,
   getOffice,
-  getTestProperties,
-} = require("../../utils/tests/seedTestDB");
+} = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("properties"));
@@ -20,7 +19,7 @@ describe("properties models", () => {
     expect(home._id).toBeDefined();
     expect(home.kind).toEqual("Home");
     expect(home.homeType).toEqual(testHome.homeType);
-    expect(home.sold).toEqual(testHome.sold);
+    expect(home.sold).toBeFalsy();
     expect(home.bedRooms).toEqual(testHome.bedRooms);
     expect(home.bathRooms).toEqual(testHome.bathRooms);
     expect(home.description).toEqual(testHome.description);
@@ -39,7 +38,7 @@ describe("properties models", () => {
 
     expect(office._id).toBeDefined();
     expect(office.kind).toEqual("Office");
-    expect(office.sold).toEqual(testOffice.sold);
+    expect(office.sold).toBeFalsy();
     expect(office.description).toEqual(testOffice.description);
     expect(office.price).toEqual(testOffice.price);
     expect(office.surface).toEqual(testOffice.surface);

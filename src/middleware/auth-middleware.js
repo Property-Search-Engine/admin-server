@@ -16,7 +16,6 @@ async function authMiddleware(req, res, next) {
                 email: email,
                 uid: uid,
             };
-            console.log({ email, uid })
             next();
         } catch (error) {
             next(error);

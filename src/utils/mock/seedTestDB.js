@@ -3,70 +3,73 @@ const db = require("../../models");
 const property = {
   price: 200000,
   description: "This is the house of your dreams",
-  filters: ["pets_allowed"],
+  filters: ["petsAllowed"],
   images: ["https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg"],
-  address: {
-    street: "C/Sant Antoni",
-    number: 50,
-    city: "Cerdañola del Vallés",
-    state: "Catalonia",
-    country: "Spain",
-    coordinates: {
-      lat: 0.1234,
-      long: 1.2314
-    }
-  },
   contactInfo: {
-    _id: "5d6ede6a0ba62570afcedd3a",
     phone: "7569283938",
     email: "patata@mail.com"
   },
-  sold: false,
 }
 
 function getTestProperties() {
   return [
     {
+      employee_id: "5d6ede6a0ba62570afcedd3a",
       kind: "Home",
       homeType: "house",
       bedRooms: 3,
       bathRooms: 2,
-      equipment: "indifferent",
-      condition: "new_home",
+      equipment: "full",
+      condition: "newHome",
       surface: 200,
+      address: {
+        street: "C/Sant Antoni",
+        number: 50,
+        city: "Cerdañola del Vallés",
+        state: "Catalonia",
+        country: "Spain",
+        coordinates: {
+          lat: 0.1234,
+          long: 1.2314
+        }
+      },
       ...property
     },
     {
+      employee_id: "5d6ede6a0ba62570afcedd3a",
       kind: "Office",
-      building_use: "co_working",
+      buildingUse: "coWorking",
+      address: {
+        street: "C/Sant Antoni",
+        number: 50,
+        city: "Barcelona",
+        state: "Catalonia",
+        country: "Spain",
+        coordinates: {
+          lat: 0.1234,
+          long: 1.2314
+        }
+      },
       ...property
     }
   ];
 }
 
-function getTestEmployees() {
-  return [
-    {
-      firstname: "Home",
-      lastname: "house",
-      email: "asdasdad@asdasd.com",
-      phone: "323-2423-123",
-    },
-    {
-      firstname: "Home",
-      lastname: "house",
-      email: "asdasdad@asdasd.com",
-      phone: "323-2423-123",
-      properties: []
-    },
-    {
-      firstname: "Home",
-      lastname: "house",
-      email: "asdasdad@asdasd.com",
-      phone: "323-2423-123",
-      properties: getTestProperties()
-    },
-  ];
+function getTestEmployee() {
+  return [{
+    _id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    firstname: "Home",
+    lastname: "house",
+    email: "test@test.com",
+    phone: "323-2423-123",
+  },
+  {
+    _id: "5d6ede6a0ba62570afcedd3b",
+    firstname: "Home",
+    lastname: "house",
+    email: "qsdfsdfg@asdasd.com",
+    phone: "323-2423-123",
+  }]
 }
 
 // async function seedTestRecibesDB() {
@@ -119,20 +122,19 @@ function getHome() {
 function getOffice() {
   return getTestProperties()[1];
 }
-function getTestEmployeeNP() {
-  return getTestEmployees()[0]
+
+function getTestEmployee1() {
+  return getTestEmployee()[0];
 }
-function getTestEmployeeDP() {
-  return getTestEmployees()[1]
+
+function getTestEmployee2() {
+  return getTestEmployee()[1];
 }
-function getTestEmployeeFP() {
-  return getTestEmployees()[2]
-}
+
 module.exports = {
   getTestProperties,
   getHome,
   getOffice,
-  getTestEmployeeNP,
-  getTestEmployeeDP,
-  getTestEmployeeFP
+  getTestEmployee1,
+  getTestEmployee2,
 };

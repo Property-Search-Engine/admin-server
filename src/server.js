@@ -11,6 +11,7 @@ const app = express();
 
 const errorMiddleware = require("./middleware/error-middleware");
 const userRouter = require("./routes/user-routes");
+const propertyRouter = require("./routes/property-routes");
 
 app.use(morgan("dev"));
 app.use(helmet());
@@ -24,8 +25,8 @@ app.use(
 app.get("/", (req, res) => {
   res.status(200).send("hello-world")
 })
-
 app.use("/user", userRouter);
+app.use("/properties", propertyRouter);
 
 app.use(errorMiddleware);
 

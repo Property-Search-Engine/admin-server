@@ -1,9 +1,8 @@
 const db = require("../models");
 
 async function register(req, res, next) {
-  const { firstName, lastName, phone } = req.body;
+  const { firstname, lastname, phone } = req.body;
   const { uid, email } = req.employee
-
   try {
     const employee = await db.Employee.findOne({ email });
 
@@ -13,8 +12,8 @@ async function register(req, res, next) {
     const newEmployee = await db.Employee.create({
       _id: uid,
       email,
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       phone
     });
     res.status(200).send({
@@ -29,10 +28,9 @@ async function login(req, res, next) {
   const { uid, email } = req.employee
 
   try {
-    const employee = await db.Employee.findOne({ email });
-
+    const employee = await db.Employee.findOne({ _id: uid });
     if (employee) {
-      return res.status(200).send(employee)
+      return res.status(200).send({ data: employee })
     }
     res.status(404).send({
       message: "User not found."
