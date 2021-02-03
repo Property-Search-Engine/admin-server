@@ -39,18 +39,7 @@ const EmployeeSchema = new mongoose.Schema(
     },
     {
         timestamps: true,
-        toJSON: { virtuals: true },  //So `res.json()` and other `JSON.stringify()` functions include virtuals
-        toObject: { virtuals: true }  //So `toObject()` output includes virtuals
     },
 );
-
-EmployeeSchema.virtual('properties', {
-    ref: 'Property', // The model to use
-    localField: '_id', // Find people where `localField`
-    foreignField: 'employee_id', // is equal to `foreignField`
-    // If `justOne` is true, 'members' will be a single doc as opposed to
-    // an array. `justOne` is false by default.
-    justOne: false,
-});
 
 module.exports = EmployeeSchema

@@ -2,16 +2,9 @@ const db = require("../models");
 const { buildFiltersFromQuery, matchProperties } = require("../utils/properties/filters");
 
 async function searchProperty(req, res, next) {
-    // const { uid } = req.user;
-    // const filters = buildFiltersFromQuery(req);
-    // const properties = await db.Employee.aggregate([
-    //     { $match: { "_id": uid } },
-    //     { $unwind: "$properties" },
-    //     {
-    //         $match: matchProperties(filters),
-    //     },
-    //     { $replaceRoot: { newRoot: "$properties" } },
-    // ])
+    const { uid } = req.user;
+    const filters = buildFiltersFromQuery(req);
+    // const properties = await db.Employee.aggregate()
     //     .exec()
     //     .catch(next);
 

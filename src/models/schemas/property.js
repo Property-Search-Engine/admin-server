@@ -71,6 +71,7 @@ const PropertySchema = new mongoose.Schema(
         employee_id: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: "Employee",
+            index: true,
         },
         price: {
             type: Number,
