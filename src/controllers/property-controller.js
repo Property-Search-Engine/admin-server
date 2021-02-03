@@ -1,7 +1,19 @@
 const db = require("../models");
+const { buildFiltersFromQuery, matchProperties } = require("../utils/properties/filters");
 
-function searchProperty(req, res, next) {
-    //TODO: Search property by filters
+async function searchProperty(req, res, next) {
+    const { uid } = req.user;
+    const filters = buildFiltersFromQuery(req);
+    // const properties = await db.Employee.aggregate()
+    //     .exec()
+    //     .catch(next);
+
+    // return properties;
+
+    // res.status(200).send({
+    //     data: properties,
+    //     error: null,
+    // });
 }
 
 function getPropertyById(req, res, next) {
@@ -24,6 +36,13 @@ function setPropertyAsSold(req, res, next) {
     //TODO: Patch property to be sold
 }
 
-module.exports = { searchProperty, getPropertyById, editProperty, createProperty, deleteProperty, setPropertyAsSold };
+module.exports = {
+    searchProperty,
+    getPropertyById,
+    editProperty,
+    createProperty,
+    deleteProperty,
+    setPropertyAsSold,
+};
 
 

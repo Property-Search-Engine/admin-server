@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const { PropertyMinSchema, HomeMinSchema, OfficeMinSchema } = require("./property-min")
 
 const EmployeeSchema = new mongoose.Schema(
     {
@@ -37,14 +36,10 @@ const EmployeeSchema = new mongoose.Schema(
             trim: true,
             unique: true,
         },
-        properties: [PropertyMinSchema]
     },
     {
         timestamps: true,
     },
 );
-const propertyArr = EmployeeSchema.path("properties");
-propertyArr.discriminator("Home", HomeMinSchema);
-propertyArr.discriminator("Office", OfficeMinSchema);
 
 module.exports = EmployeeSchema

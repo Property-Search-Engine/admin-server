@@ -1,55 +1,34 @@
-const testServer = require("../../utils/tests/db-test-server");
-const { Employee } = require("../index");
-const { getTestEmployeeDP, getTestEmployeeNP, getTestEmployeeFP } = require("../../utils/tests/seedTestDB");
+const testServer = require("../../utils/mock/db-test-server");
+const { Employee, Home, Office } = require("../index");
+const { getTestEmployee1, getTestEmployee2, getHome, getOffice } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("employees"));
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
-  const testEmployeeNP = getTestEmployeeNP();
-  const testEmployeeDP = getTestEmployeeDP();
-  const testEmployeeFP = getTestEmployeeFP();
 
   it("can create a new employee model without properties defined", async () => {
-
-    const employee = await Employee.create(testEmployeeNP);
-
-    expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployeeNP.firstname);
-    expect(employee.lastname).toBe(testEmployeeNP.lastname);
-    expect(employee.email).toBe(testEmployeeNP.email);
-    expect(employee.phone).toBe(testEmployeeNP.phone);
-    expect(employee.properties).toBeDefined()
-  });
-
-  it("can create a new employee model with empty properties", async () => {
-    const employee = await Employee.create(testEmployeeDP);
+    const testEmployee = getTestEmployee2();
+    const employee = await Employee.create(testEmployee);
 
     expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployeeNP.firstname);
-    expect(employee.lastname).toBe(testEmployeeNP.lastname);
-    expect(employee.email).toBe(testEmployeeNP.email);
-    expect(employee.phone).toBe(testEmployeeNP.phone);
-    expect(employee.properties).toBeDefined();
+    expect(employee.firstname).toBe(testEmployee.firstname);
+    expect(employee.lastname).toBe(testEmployee.lastname);
+    expect(employee.email).toBe(testEmployee.email);
+    expect(employee.phone).toBe(testEmployee.phone);
   });
 
   it("can create a new employee model with a home and an office", async () => {
-    const employee = await Employee.create(testEmployeeFP);
 
-    expect(employee._id).toBeDefined();
-    expect(employee.firstname).toBe(testEmployeeNP.firstname);
-    expect(employee.lastname).toBe(testEmployeeNP.lastname);
-    expect(employee.email).toBe(testEmployeeNP.email);
-    expect(employee.phone).toBe(testEmployeeNP.phone);
-    expect(employee.properties).toHaveLength(2);
+    const home = await Home.create(getHome());
+    await Office.create(getOffice());
+    
+    const testEmployee = getTestEmployee1();
+    const employee = await Employee.create(testEmployee);
+    const result = await Employee.findById(employee._id).populate("properties").lean().exec();
 
-    expect(employee.properties[0]).toMatchObject({
-      kind: "Home",
-    });
-    expect(employee.properties[1]).toMatchObject({
-      kind: "Office"
-    });
-
+    expect(result.properties[0].employee_id.toString()).toMatch(getHome().employee_id);
+    expect(result.properties[1].employee_id.toString()).toMatch(getOffice().employee_id);
   });
 });

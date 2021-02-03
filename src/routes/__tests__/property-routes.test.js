@@ -1,8 +1,8 @@
 const supertest = require("supertest");
 
-const testServer = require("../../utils/tests/db-test-server");
+const testServer = require("../../utils/mock/db-test-server");
 const app = require("../../server");
-const setupTestDB = require("../../utils/tests/seedTestDB");
+const setupTestDB = require("../../utils/mock/seedTestDB");
 
 const request = supertest(app);
 

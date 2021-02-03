@@ -1,10 +1,9 @@
-const testServer = require("../../utils/tests/db-test-server");
+const testServer = require("../../utils/mock/db-test-server");
 const { Home, Office } = require("../index");
 const {
   getHome,
   getOffice,
-  getTestProperties,
-} = require("../../utils/tests/seedTestDB");
+} = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("properties"));
