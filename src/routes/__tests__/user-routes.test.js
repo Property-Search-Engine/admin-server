@@ -10,14 +10,14 @@ const { Home, Office } = require("../../models/properties-model");
 const request = supertest(app);
 
 jest.mock('../../middleware/auth-middleware.js', () => {
-    return jest.fn((req, res, next) => {
-      req.employee = {
-        uid: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
-        email: "test@test.com"
-      }
-      next();
+    return jest.fn(() => (req, _, next) => {
+        req.employee = {
+            uid: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+            email: "test@test.com"
+        }
+        next();
     })
-  });
+});
 
 beforeAll(async () => {
     await testServer.initTestServer();

@@ -8,7 +8,7 @@ const request = supertest(app);
 const MOCK_EMPLOYEE_ID = "5d6ede6a0ba62570afcedd3a";
 
 jest.mock('../../middleware/auth-middleware.js', () => {
-  return jest.fn((req, res, next) => {
+  return jest.fn(() => (req, _, next) => {
     req.employee = {
       uid: MOCK_EMPLOYEE_ID,
       email: "pepe@mail.com"
@@ -42,9 +42,9 @@ describe("Private property routes", () => {
   it("can search a home successfully", async () => {
     const res = await request.get("/properties?kind=Home&homeType[]=house&sold=false&bedRooms[]=3&bathRooms[]=2&minPrice=100&maxPrice=300000&surface=100")
       .set('Accept', 'application/json');
+    const data = res.body.data;
 
     expect(res.status).toBe(200);
-    const data = res.body.data;
     expect(data.length).toBeGreaterThanOrEqual(1);
     expect(data[0].employee_id).toBe(MOCK_EMPLOYEE_ID);
     expect(data[0].kind).toBe("Home");
@@ -56,11 +56,11 @@ describe("Private property routes", () => {
   })
 
   it("can search an office successfully", async () => {
-    const res = await request.get("/properties?kind=Office&minPrice=100&maxPrice=300000&surface=100&buildingUse[]=coWorking")
+    const res = await request.get("/properties?kind=Office&minPrice=100&maxPrice=300000&surface=100&buildingUse[]=coWorking&buildingUse[]=private")
       .set('Accept', 'application/json');
+    const data = res.body.data;
 
     expect(res.status).toBe(200);
-    const data = res.body.data;
     expect(data.length).toBeGreaterThanOrEqual(1);
     expect(data[0].employee_id).toBe(MOCK_EMPLOYEE_ID);
     expect(data[0].kind).toBe("Office");
