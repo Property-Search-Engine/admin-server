@@ -15,8 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await testServer.clearCollection("properties");
-  await testServer.clearCollection("employees");
+  await testServer.clearCollections();
   await testServer.stopTestServer();
 });
 

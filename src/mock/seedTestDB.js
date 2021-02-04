@@ -112,7 +112,7 @@ const EMPLOYEES = [
     firstname: "Pepe",
     lastname: "Martinez",
     email: "test@test.com",
-    phone: "827948827",
+    phone: "827948527",
   }
 ];
 

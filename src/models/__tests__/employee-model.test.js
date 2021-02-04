@@ -3,7 +3,10 @@ const { Employee } = require("../index");
 const { getTestEmployee2 } = require("../../mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
-afterEach(async () => await testServer.clearCollection("employees"));
+afterEach(async () => {
+  await testServer.clearCollection("employees")
+  await testServer.clearCollection("properties")
+});
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
