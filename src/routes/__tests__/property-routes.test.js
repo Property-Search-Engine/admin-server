@@ -2,19 +2,19 @@ const supertest = require("supertest");
 const testServer = require("../../utils/mock/db-test-server");
 const app = require("../../server");
 const setupTestDB = require("../../utils/mock/seedTestDB");
+const { clearCollection } = require("../../utils/mock/db-test-server");
 
 const request = supertest(app);
 
-jest.mock('../../middleware/auth-middleware.js', () => {
+jest.mock("../../middleware/auth-middleware.js", () => {
   return jest.fn((req, res, next) => {
     req.employee = {
       uid: "5d6ede6a0ba62570afcedd3a",
-      email: "pepe@mail.com"
-    }
+      email: "pepe@mail.com",
+    };
     next();
-  })
+  });
 });
-
 
 beforeAll(async () => {
   await testServer.initTestServer();
@@ -28,29 +28,89 @@ afterAll(async () => {
 });
 
 describe("Private property routes", () => {
-  // TODO: property tests Dani
-  // it("can get property by Id", async () => {
-  //   const TEST_PROPERTY = await setupTestDB.getHome();
-  //   //insert into db test_property with create property
-  //   const res = await request.get(`/properties/${TEST_PROPERTY._id}`);
-  //   // const res = await request.get(`/properties/1`);
-  //   console.log(TEST_PROPERTY);
-  //   // console.log(TEST_PROPERTY._id);
-  //   console.log(res);
-  //   expect(res.status).toBe(200);
-  //   expect(res.body.data._id).toEqual(expect.TEST_PROPERTY._id);
-  //   // expect(res.body.data.author._id).toEqual(expect.any(String));
-  //   // expect(res.body.data.comments).toEqual(expect.any(Array));
-  // });
+  it("can get property by Id", async () => {
+    const TEST_PROPERTY = await setupTestDB.getHome();
+    //insert into db test_property with create property
+    TEST_PROPERTY.address.city = "Tarragona";
+    const SAVED_PROPERTY = await request
+      .post("/properties")
+      .send(TEST_PROPERTY);
+
+    const res = await request.get(
+      `/properties/${SAVED_PROPERTY.body.data._id}`,
+    );
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject(SAVED_PROPERTY.body.data);
+  });
 
   it("can add property to db", async () => {
     const TEST_PROPERTY = await setupTestDB.getHome();
-    TEST_PROPERTY.address.city = "Tarragona";
-    
+    TEST_PROPERTY.address.city = "Buenos Aires";
+
     const res = await request.post("/properties").send(TEST_PROPERTY);
+
     expect(res.status).toBe(201);
     expect(res.body.data).toMatchObject(TEST_PROPERTY);
   });
+
+  it("can edit property", async () => {
+    const TEST_PROPERTY = await setupTestDB.getHome();
+    TEST_PROPERTY.address.city = "Manila";
+
+    const SAVED_PROPERTY = await request
+      .post("/properties")
+      .send(TEST_PROPERTY);
+
+    const NEW_PROPERTY = await setupTestDB.getHome();
+    NEW_PROPERTY.address.city = "Test City";
+    NEW_PROPERTY.images = [
+      "https://defendernetwork.com/wp-content/uploads/2018/11/snoopdogg_bibleoflove_publicityimage1.jpg",
+    ];
+
+    const res = await request
+      .put(`/properties/${SAVED_PROPERTY.body.data._id}`)
+      .send(NEW_PROPERTY);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject(NEW_PROPERTY);
+  });
+
+  it("can delete property", async () => {
+    const TEST_PROPERTY = await setupTestDB.getHome();
+    TEST_PROPERTY.address.city = "Manila";
+
+    const SAVED_PROPERTY = await request
+      .post("/properties")
+      .send(TEST_PROPERTY);
+
+    const res = await request.del(
+      `/properties/${SAVED_PROPERTY.body.data._id}`,
+    );
+    console.log(res.body.data);
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject(SAVED_PROPERTY.body.data);
+  });
+
+  it("can mark property as sold", async () => {
+    const TEST_PROPERTY = await setupTestDB.getHome();
+    TEST_PROPERTY.address.city = "Basilea";
+
+    const SAVED_PROPERTY = await request
+      .post("/properties")
+      .send(TEST_PROPERTY);
+
+    const NEW_PROPERTY = await setupTestDB.getHome();
+    NEW_PROPERTY.sold = true;
+
+    const res = await request
+      .put(`/properties/${SAVED_PROPERTY.body.data._id}`)
+      .send(NEW_PROPERTY);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject(NEW_PROPERTY);
+  });
+
+  //TODO: try to get a property that doesn't exist
 });
 
 // describe("Public recipe routes", () => {

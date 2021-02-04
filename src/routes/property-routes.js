@@ -9,6 +9,12 @@ propertyRouter.get("/:propertyID", propertyController.getPropertyById);
 
 propertyRouter.post("/", propertyController.createProperty);
 
+propertyRouter.put("/:propertyID", propertyController.editProperty);
+
+propertyRouter.delete("/:propertyID", propertyController.deleteProperty);
+
+propertyRouter.patch("/:propertyID/sold", propertyController.setPropertyAsSold);
+
 // recipesRouter.get("/recipes", recipesController.getRecipes);
 // recipesRouter.get("/recipes/:recipeID", recipesController.getRecipe);
 // recipesRouter.post(
