@@ -70,8 +70,10 @@ const options = {
 const PropertySchema = new mongoose.Schema(
     {
         employee_id: {
-            type: mongoose.SchemaTypes.ObjectId,
+            type: String,
             ref: "Employee",
+            trim: true,
+            required: true,
             index: true,
         },
         price: {

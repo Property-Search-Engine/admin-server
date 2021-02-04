@@ -4,7 +4,8 @@ const validator = require("validator");
 const EmployeeSchema = new mongoose.Schema(
     {
         _id: {
-            type: mongoose.SchemaTypes.ObjectId,
+            type: String,
+            trim: true,
             required: true
         },
         firstname: {

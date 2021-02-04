@@ -28,8 +28,7 @@ app.use(
 app.use(auth.initialize);
 
 //app.use(userRouter);
-app.use("/properties", authMiddleware);
-app.use("/properties", propertyRouter);
+app.use("/properties", authMiddleware, propertyRouter);
 
 app.use(errorMiddleware);
 

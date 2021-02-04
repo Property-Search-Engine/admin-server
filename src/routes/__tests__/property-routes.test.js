@@ -1,17 +1,29 @@
 const supertest = require("supertest");
-
 const testServer = require("../../utils/mock/db-test-server");
 const app = require("../../server");
 const setupTestDB = require("../../utils/mock/seedTestDB");
 
 const request = supertest(app);
 
+jest.mock('../../middleware/auth-middleware.js', () => {
+  return jest.fn((req, res, next) => {
+    req.employee = {
+      uid: "5d6ede6a0ba62570afcedd3a",
+      email: "pepe@mail.com"
+    }
+    next();
+  })
+});
+
+
 beforeAll(async () => {
   await testServer.initTestServer();
+  await setupTestDB.seedTestPropertiesDB();
 });
 
 afterAll(async () => {
   await testServer.clearCollection("properties");
+  await testServer.clearCollection("employees");
   await testServer.stopTestServer();
 });
 
@@ -33,15 +45,11 @@ describe("Private property routes", () => {
 
   it("can add property to db", async () => {
     const TEST_PROPERTY = await setupTestDB.getHome();
-
+    TEST_PROPERTY.address.city = "Tarragona";
+    
     const res = await request.post("/properties").send(TEST_PROPERTY);
-
-    // expect(res.status).toBe(200);
-    // expect(res.body.data._id).toEqual(expect.any(String));
-    // expect(res.body.data.author._id).toEqual(expect.any(String));
-    // expect(res.body.data.recipe).toEqual(expect.any(String));
-    // expect(res.body.error).toBeNull();
-    expect(true).toBe(true);
+    expect(res.status).toBe(201);
+    expect(res.body.data).toMatchObject(TEST_PROPERTY);
   });
 });
 
