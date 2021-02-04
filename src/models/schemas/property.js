@@ -16,6 +16,7 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        index: true
     },
     state: {
         type: String,
@@ -42,10 +43,6 @@ const addressSchema = new mongoose.Schema({
 
 /** It gets fullfilled automatically from the controller */
 const contactInfoSchema = new mongoose.Schema({
-    _id: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "Employee",
-    },
     phone: {
         type: String,
         required: true,
@@ -63,7 +60,7 @@ const contactInfoSchema = new mongoose.Schema({
             message: (props) => `${props.value} is not a valid email address`,
         }
     },
-});
+}, { _id: false });
 
 const options = {
     discriminatorKey: "kind",
@@ -72,6 +69,13 @@ const options = {
 
 const PropertySchema = new mongoose.Schema(
     {
+        employee_id: {
+            type: String,
+            ref: "Employee",
+            trim: true,
+            required: true,
+            index: true,
+        },
         price: {
             type: Number,
             min: 0,
@@ -117,6 +121,11 @@ const PropertySchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        surface: {
+            type: Number,
+            min: 1,
+            required: true,
+        },
         sold_date: {
             type: Date,
         },
@@ -143,17 +152,12 @@ const HomeSchema = new mongoose.Schema({
     },
     equipment: {
         type: String,
-        enum: ["indifferent", "fullyFittedKitchen", "furnished"],
+        enum: ['none', 'partial', 'full'],
         required: true,
     },
     condition: {
         type: String,
         enum: ["newHome", "goodCondition", "needsRenovation"],
-        required: true,
-    },
-    surface: {
-        type: Number,
-        min: 1,
         required: true,
     },
 });

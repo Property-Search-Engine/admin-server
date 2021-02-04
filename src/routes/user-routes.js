@@ -1,23 +1,13 @@
-// const { Router } = require("express");
-// const passport = require("passport");
+const { Router } = require("express");
 
-// const userRouter = Router();
+const userRouter = Router();
 
-// const userController = require("../controllers/user-controller");
+const userController = require("../controllers/user-controller");
 
-// userRouter.post("/user/sign-up", userController.signUp);
-// userRouter.post("/user/login", userController.login);
+userRouter.post("/register", userController.register);
+userRouter.post("/login", userController.login);
+userRouter.delete("/", userController.deleteUser);
+userRouter.put("/profile", userController.update);
+userRouter.get("/statistics", userController.stats);
 
-// userRouter.post(
-//   "/user/logout",
-//   passport.authenticate("jwt", { session: false }),
-//   userController.logout,
-// );
-
-// userRouter.get(
-//   "/user/me",
-//   passport.authenticate("jwt", { session: false }),
-//   userController.me,
-// );
-
-// module.exports = userRouter;
+module.exports = userRouter;
