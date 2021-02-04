@@ -50,6 +50,45 @@ const PROPERTIES = [
       }
     },
     ...property
+  },
+  {
+    employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    kind: "Home",
+    homeType: "house",
+    bedRooms: 3,
+    bathRooms: 2,
+    equipment: "full",
+    condition: "newHome",
+    surface: 200,
+    address: {
+      street: "C/Sant Antoni",
+      number: 50,
+      city: "Cerdañola de Vallés",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
+    },
+    ...property
+  },
+  {
+    employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    kind: "Office",
+    buildingUse: "coWorking",
+    address: {
+      street: "C/Sant a Antoni",
+      number: 50,
+      city: "Barcelona",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
+    },
+    ...property
   }
 ];
 
@@ -67,6 +106,13 @@ const EMPLOYEES = [
     lastname: "house",
     email: "qsdfsdfg@asdasd.com",
     phone: "625989438",
+  },
+  {
+    _id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    firstname: "Pepe",
+    lastname: "Martinez",
+    email: "test@test.com",
+    phone: "827948827",
   }
 ];
 
@@ -90,6 +136,13 @@ function getHome() {
 function getOffice() {
   return PROPERTIES[1];
 }
+function getMyHome() {
+  return PROPERTIES[2];
+}
+
+function getMyOffice() {
+  return PROPERTIES[3];
+}
 
 function getTestEmployee1() {
   return EMPLOYEES[0];
@@ -99,10 +152,17 @@ function getTestEmployee2() {
   return EMPLOYEES[1];
 }
 
+function getTestAuthEmployee() {
+  return EMPLOYEES[2];
+}
+
 module.exports = {
   getHome,
   getOffice,
+  getMyHome,
+  getMyOffice,
   getTestEmployee1,
   getTestEmployee2,
-  seedTestPropertiesDB
+  seedTestPropertiesDB,
+  getTestAuthEmployee
 };

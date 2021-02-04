@@ -12,11 +12,10 @@ async function authMiddleware(req, res, next) {
 
             const { email, uid } = userClaims;
 
-            req.user = {
+            req.employee = {
                 email: email,
                 uid: uid,
             };
-
             next();
         } catch (error) {
             next(error);

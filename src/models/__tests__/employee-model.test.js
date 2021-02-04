@@ -7,7 +7,8 @@ afterEach(async () => await testServer.clearCollection("employees"));
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
-  it("can create a new employee model without properties defined", async () => {
+
+  it("can create a new employee", async () => {
     const testEmployee = getTestEmployee2();
     const employee = await Employee.create(testEmployee);
 
