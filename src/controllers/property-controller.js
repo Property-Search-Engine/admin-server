@@ -8,6 +8,7 @@ const {
 async function searchProperty(req, res, next) {
   const { uid } = req.employee;
   const filters = req.query;
+
   const properties = await
     (filters.kind == "Home" ?
       db.Home.find({

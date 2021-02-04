@@ -11,8 +11,11 @@ module.exports = (err, req, res, next) => {
     return next(err);
   }
 
-  res.status(500).send({
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Something went wrong";
+
+  res.status(statusCode).send({
     data: null,
-    error: "Something went wrong",
+    error: message,
   });
 };
