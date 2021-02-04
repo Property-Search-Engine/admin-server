@@ -32,10 +32,13 @@ describe("Private property routes", () => {
   // });
 
   it("can add property to db", async () => {
-    // const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = await setupTestDB.getHome();
 
-    // const res = await request.post(`/properties/${testRecipe._id}/comment`);
-    // expect(res.status).toBe(201);
+    const res = await request.post("/properties").send(TEST_PROPERTY);
+
+    console.log(res.body);
+
+    expect(res.status).toBe(200);
     // expect(res.body.data._id).toEqual(expect.any(String));
     // expect(res.body.data.author._id).toEqual(expect.any(String));
     // expect(res.body.data.recipe).toEqual(expect.any(String));

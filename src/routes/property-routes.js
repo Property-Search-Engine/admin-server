@@ -5,12 +5,9 @@ const propertyRouter = Router();
 
 const propertyController = require("../controllers/property-controller");
 
-propertyRouter.get(
-  "/properties/:propertyID",
-  propertyController.getPropertyById,
-);
+propertyRouter.get("/:propertyID", propertyController.getPropertyById);
 
-propertyRouter.post("/properties", propertyController.createProperty);
+propertyRouter.post("/", propertyController.createProperty);
 
 // recipesRouter.get("/recipes", recipesController.getRecipes);
 // recipesRouter.get("/recipes/:recipeID", recipesController.getRecipe);
