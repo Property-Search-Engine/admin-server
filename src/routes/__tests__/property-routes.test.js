@@ -1,21 +1,13 @@
+const MOCK_EMPLOYEE_ID = "5d6ede6a0ba62570afcedd3a";
+const mockAuth = require("../../mock/middleware/auth-middleware")(MOCK_EMPLOYEE_ID, "pepe@mail.com");
+jest.mock('../../middleware/auth-middleware.js', () => mockAuth);
+
 const supertest = require("supertest");
-const testServer = require("../../utils/mock/db-test-server");
+const testServer = require("../../mock/db-test-server");
 const app = require("../../server");
-const setupTestDB = require("../../utils/mock/seedTestDB");
+const setupTestDB = require("../../mock/seedTestDB");
 
 const request = supertest(app);
-
-const MOCK_EMPLOYEE_ID = "5d6ede6a0ba62570afcedd3a";
-
-jest.mock('../../middleware/auth-middleware.js', () => {
-  return jest.fn(() => (req, _, next) => {
-    req.employee = {
-      uid: MOCK_EMPLOYEE_ID,
-      email: "pepe@mail.com"
-    }
-    next();
-  })
-});
 
 beforeAll(async () => {
   await testServer.initTestServer();

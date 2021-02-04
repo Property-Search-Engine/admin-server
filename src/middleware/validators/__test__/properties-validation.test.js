@@ -1,6 +1,6 @@
 const {
     getDefaultHome, getDefaultOffice
-} = require("../../../utils/mock/requests/properties");
+} = require("../../../mock/requests/properties");
 
 const { validateSearchFilters } = require("../properties-validator");
 

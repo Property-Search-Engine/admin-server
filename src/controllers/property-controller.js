@@ -3,7 +3,7 @@ const {
   buildPropertyBaseMatchingRules,
   buildHomeMatchingRules,
   buildOfficeMatchingRules
-} = require("../utils/properties/filters");
+} = require("../utils/filters/index.js");
 
 async function searchProperty(req, res, next) {
   const { uid } = req.employee;
