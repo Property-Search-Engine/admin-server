@@ -15,5 +15,5 @@ down:
 
 build:
 	docker-compose -f docker-compose-test.yaml build
-moha: down
+up_forward: down
 	docker-compose -f docker-compose-test.yaml up -d --scale node=0 && docker-compose -f docker-compose-test.yaml -p 5000:5000 run node /bin/sh
