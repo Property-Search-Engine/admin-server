@@ -5,16 +5,17 @@ const setupTestDB = require("../../utils/mock/seedTestDB");
 
 const request = supertest(app);
 
+const MOCK_EMPLOYEE_ID = "5d6ede6a0ba62570afcedd3a";
+
 jest.mock('../../middleware/auth-middleware.js', () => {
   return jest.fn((req, res, next) => {
     req.employee = {
-      uid: "5d6ede6a0ba62570afcedd3a",
+      uid: MOCK_EMPLOYEE_ID,
       email: "pepe@mail.com"
     }
     next();
   })
 });
-
 
 beforeAll(async () => {
   await testServer.initTestServer();
@@ -28,29 +29,54 @@ afterAll(async () => {
 });
 
 describe("Private property routes", () => {
-  // TODO: property tests Dani
-  // it("can get property by Id", async () => {
-  //   const TEST_PROPERTY = await setupTestDB.getHome();
-  //   //insert into db test_property with create property
-  //   const res = await request.get(`/properties/${TEST_PROPERTY._id}`);
-  //   // const res = await request.get(`/properties/1`);
-  //   console.log(TEST_PROPERTY);
-  //   // console.log(TEST_PROPERTY._id);
-  //   console.log(res);
-  //   expect(res.status).toBe(200);
-  //   expect(res.body.data._id).toEqual(expect.TEST_PROPERTY._id);
-  //   // expect(res.body.data.author._id).toEqual(expect.any(String));
-  //   // expect(res.body.data.comments).toEqual(expect.any(Array));
-  // });
 
   it("can add property to db", async () => {
     const TEST_PROPERTY = await setupTestDB.getHome();
     TEST_PROPERTY.address.city = "Tarragona";
-    
+
     const res = await request.post("/properties").send(TEST_PROPERTY);
     expect(res.status).toBe(201);
     expect(res.body.data).toMatchObject(TEST_PROPERTY);
   });
+
+  it("can search a home successfully", async () => {
+    const res = await request.get("/properties?kind=Home&homeType[]=house&sold=false&bedRooms[]=3&bathRooms[]=2&minPrice=100&maxPrice=300000&surface=100")
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(200);
+    const data = res.body.data;
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].employee_id).toBe(MOCK_EMPLOYEE_ID);
+    expect(data[0].kind).toBe("Home");
+    expect(data[0].bedRooms).toBe(3);
+    expect(data[0].bathRooms).toBe(2);
+    expect(data[0].surface).toBeGreaterThan(100);
+    expect(data[0].price).toBeGreaterThanOrEqual(100);
+    expect(data[0].price).toBeLessThanOrEqual(300000);
+  })
+
+  it("can search an office successfully", async () => {
+    const res = await request.get("/properties?kind=Office&minPrice=100&maxPrice=300000&surface=100&buildingUse[]=coWorking")
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(200);
+    const data = res.body.data;
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].employee_id).toBe(MOCK_EMPLOYEE_ID);
+    expect(data[0].kind).toBe("Office");
+    expect(data[0].surface).toBeGreaterThan(100);
+    expect(data[0].price).toBeGreaterThanOrEqual(100);
+    expect(data[0].price).toBeLessThanOrEqual(300000);
+    expect(data[0].buildingUse).toBe("coWorking");
+  })
+
+  it("can fail when wrong kind is provided", async () => {
+    const res = await request.get("/properties?kind=patata")
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(400);
+    expect(res.body.errors[0].message).toBe('"kind" must be one of [Home, Office]');
+  })
 });
 
 // describe("Public recipe routes", () => {

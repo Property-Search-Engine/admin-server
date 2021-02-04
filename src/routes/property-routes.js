@@ -3,11 +3,14 @@ const { Router } = require("express");
 
 const propertyRouter = Router();
 
-const propertyController = require("../controllers/property-controller");
+const { getPropertyById, createProperty, searchProperty } = require("../controllers/property-controller");
+const { validateSearchFilters } = require("../middleware/validators/properties-validator");
 
-propertyRouter.get("/:propertyID", propertyController.getPropertyById);
+propertyRouter.get("/:propertyID", getPropertyById);
 
-propertyRouter.post("/", propertyController.createProperty);
+propertyRouter.post("/", createProperty);
+
+propertyRouter.get("/", validateSearchFilters, searchProperty);
 
 // recipesRouter.get("/recipes", recipesController.getRecipes);
 // recipesRouter.get("/recipes/:recipeID", recipesController.getRecipe);

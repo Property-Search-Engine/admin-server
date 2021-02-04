@@ -24,7 +24,11 @@ beforeAll(async () => {
 });
 
 //afterEach(async () => await testServer.clearCollection("employees"));
-afterAll(async () => await testServer.stopTestServer());
+afterAll(async () => {
+    await testServer.clearCollection("properties");
+    await testServer.clearCollection("employees");
+    await testServer.stopTestServer();
+});
 
 describe("user route", () => {
     const testUser = getTestAuthEmployee();

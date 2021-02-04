@@ -117,16 +117,13 @@ const EMPLOYEES = [
 ];
 
 async function seedTestPropertiesDB() {
-  const testEmployee = getTestEmployee1();
+  const employee1 = EMPLOYEES[0];
+  const employee2 = EMPLOYEES[2]; 
 
-  const newEmployee = await db.Employee.create(testEmployee);
+  await db.Employee.create(employee1);
+  await db.Employee.create(employee2);
 
-  const propertiesWithEmployee = PROPERTIES.map(property => ({
-    ...property,
-    employee_id: newEmployee._id
-  }));
-
-  await db.Property.insertMany(propertiesWithEmployee);
+  await db.Property.insertMany(PROPERTIES);
 }
 
 function getHome() {

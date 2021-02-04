@@ -1,35 +1,36 @@
 const db = require("../models");
 const {
-    buildPropertyBaseMatchingRules,
-    buildHomeMatchingRules,
-    buildOfficeMatchingRules
+  buildPropertyBaseMatchingRules,
+  buildHomeMatchingRules,
+  buildOfficeMatchingRules
 } = require("../utils/properties/filters");
 
 async function searchProperty(req, res, next) {
-    const { uid } = req.employee;
-    const filters = req.query;
-    const properties = await
-        (filters.kind == "Home" ?
-            db.Home.find({
-                employee_id: uid,
-                ...buildPropertyBaseMatchingRules(filters),
-                ...buildHomeMatchingRules(filters)
-            })
-            : db.Office.find({
-                employee_id: uid,
-                ...buildPropertyBaseMatchingRules(filters),
-                ...buildOfficeMatchingRules(filters)
-            })
-        )
-            .sort({ created_at: -1 })
-            .lean()
-            .exec()
-            .catch(next);
+  const { uid } = req.employee;
+  const filters = req.query;
+  const properties = await
+    (filters.kind == "Home" ?
+      db.Home.find({
+        employee_id: uid,
+        ...buildPropertyBaseMatchingRules(filters),
+        ...buildHomeMatchingRules(filters)
+      })
+      : db.Office.find({
+        employee_id: uid,
+        ...buildPropertyBaseMatchingRules(filters),
+        ...buildOfficeMatchingRules(filters)
+      })
+    )
+      .sort({ created_at: -1 })
+      .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
+      .lean()
+      .exec()
+      .catch(next);
 
-    res.status(200).send({
-        data: properties,
-        error: null,
-    });
+  res.status(200).send({
+    data: properties,
+    error: null,
+  });
 }
 
 async function getPropertyById(req, res, next) {
@@ -96,10 +97,10 @@ function setPropertyAsSold(req, res, next) {
 }
 
 module.exports = {
-    searchProperty,
-    getPropertyById,
-    editProperty,
-    createProperty,
-    deleteProperty,
-    setPropertyAsSold,
+  searchProperty,
+  getPropertyById,
+  editProperty,
+  createProperty,
+  deleteProperty,
+  setPropertyAsSold,
 };
