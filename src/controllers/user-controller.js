@@ -41,12 +41,13 @@ async function login(req, res, next) {
 }
 
 async function deleteUser(req, res, next) {
-  const { email } = req.employee
+  const { email, uid } = req.employee
 
   try {
     const employee = await db.Employee.findOneAndDelete({ email });
 
     if (employee) {
+      const Properties = await db.Property.remove({ employee_id: uid })
       return res.status(202).send({ message: "Employee deleted" })
     }
     res.status(404).send({
