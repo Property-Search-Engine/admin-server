@@ -51,6 +51,45 @@ function getTestProperties() {
         }
       },
       ...property
+    },
+    {
+      employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+      kind: "Home",
+      homeType: "house",
+      bedRooms: 3,
+      bathRooms: 2,
+      equipment: "full",
+      condition: "newHome",
+      surface: 200,
+      address: {
+        street: "C/Sant Antoni",
+        number: 50,
+        city: "Cerdañola de Vallés",
+        state: "Catalonia",
+        country: "Spain",
+        coordinates: {
+          lat: 0.1234,
+          long: 1.2314
+        }
+      },
+      ...property
+    },
+    {
+      employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+      kind: "Office",
+      buildingUse: "coWorking",
+      address: {
+        street: "C/Sant a Antoni",
+        number: 50,
+        city: "Barcelona",
+        state: "Catalonia",
+        country: "Spain",
+        coordinates: {
+          lat: 0.1234,
+          long: 1.2314
+        }
+      },
+      ...property
     }
   ];
 }
@@ -122,6 +161,13 @@ function getHome() {
 function getOffice() {
   return getTestProperties()[1];
 }
+function getMyHome() {
+  return getTestProperties()[2];
+}
+
+function getMyOffice() {
+  return getTestProperties()[3];
+}
 
 function getTestEmployee1() {
   return getTestEmployee()[0];
@@ -135,6 +181,8 @@ module.exports = {
   getTestProperties,
   getHome,
   getOffice,
+  getMyHome,
+  getMyOffice,
   getTestEmployee1,
   getTestEmployee2,
 };
