@@ -1,72 +1,45 @@
-
-function buildFiltersFromQuery(req) {
-    const {
-        kind = "Home",
-        sold = false,
-        surface,
-        maxPrice,
-        minPrice = 0,
-        publicationDate,
-        filters = [],
-        // Home Filters
-        homeType = "house",
-        bedRooms,
-        bathRooms,
-        equipment,
-        condition,
-        // Office filters
-        buildingUse
-    } = req.query;
-
-    const property = {
-        kind,
-        sold,
-        surface,
-        maxPrice,
-        minPrice,
-        publicationDate,
-        filters,
-    };
-
-    return kind == "Home" ?
-        // Home
-        {
-            ...property,
-            homeType,
-            bedRooms,
-            bathRooms,
-            equipment,
-            condition
-        } :
-        // Office
-        { ...property, buildingUse };
+function buildPropertyBaseMatchingRules(filters) {
+    return {
+        sold: filters.sold,
+        surface: { $gte: filters.surface || 0 },
+        price: { $gte: filters.minPrice, $lte: filters.maxPrice },
+        createdAt: filters.publicationDate && { $gte: filters.publicationDate } || { $exists: true },
+        filters: filters.filters.length > 0 && { $in: filters.filters } || { $exists: true },
+    }
 }
 
-function matchProperties(filters) {
-    const obj = {
-        "properties.kind": filters.kind || "Home",
-        "properties.sold": filters.sold || false,
-        "properties.surface": { $gte: filters.surface || 0 },
-        "properties.price": { $gte: filters.minPrice, $lte: filters.maxPrice || Infinity },
-        "properties.creation_date": { $gte: filters.publicationDate || 0 },
-        //"properties.filters": filters.filters && { $in: filters.filters } || exists("properties.filters"),
-        ...(filters.kind && filters.kind == "Home" ?
-            matchHome(filters) :
-            matchOffice(filters))
-    };
-    return obj;
+function buildHomeMatchingRules(filters) {
+    return {
+        homeType: filters.homeType.length > 0 && { $in: filters.homeType } || { $exists: true },
+        equipment: filters.equipment.length > 0 && { $in: filters.equipment } || { $exists: true },
+        condition: filters.condition.length > 0 && { $in: filters.condition } || { $exists: true },
+
+        bedRooms: filters.bedRooms.length > 0 ?
+            !filters.bedRooms.includes("4+")
+            && { $in: filters.bedRooms }
+            || {
+                $or: [{ $in: filters.bedRooms }, { $gte: 4 }]
+            }
+            : { $exists: true },
+
+        bathRooms: filters.bathRooms.length > 0 ?
+            !filters.bathRooms.includes("3+")
+            && { $in: filters.bathRooms }
+            || {
+                $or: [{ $in: filters.bathRooms }, { $gte: 3 }]
+            }
+            : { $exists: true },
+    }
 }
 
-function matchHome(filters) {
-    return {};
+function buildOfficeMatchingRules(filters) {
+    return {
+        buildingUse: filters.buildingUse.length > 0 && { $in: filters.buildingUse } || { $exists: true },
+    }
 }
-
-function matchOffice(filters) {
-    return {}
-}
-
 
 module.exports = {
-    buildFiltersFromQuery,
-    matchProperties
+    buildPropertyBaseMatchingRules,
+    buildHomeMatchingRules,
+    buildOfficeMatchingRules
 }

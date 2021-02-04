@@ -1,6 +1,6 @@
 const testServer = require("../../utils/mock/db-test-server");
-const { Employee, Home, Office } = require("../index");
-const { getTestEmployee1, getTestEmployee2, getHome, getOffice } = require("../../utils/mock/seedTestDB");
+const { Employee } = require("../index");
+const { getTestEmployee2 } = require("../../utils/mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
 afterEach(async () => await testServer.clearCollection("employees"));

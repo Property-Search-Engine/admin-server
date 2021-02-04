@@ -1,13 +1,23 @@
 const supertest = require("supertest");
 
 const testServer = require("../../utils/mock/db-test-server");
-const { getTestEmployee1, getHome, getMyHome, getMyOffice } = require("../../utils/mock/seedTestDB");
+const { getTestAuthEmployee, getHome, getMyHome, getMyOffice } = require("../../utils/mock/seedTestDB");
 
 const app = require("../../server");
 const Employee = require("../../models/employee-model");
 const { Home, Office } = require("../../models/properties-model");
 
 const request = supertest(app);
+
+jest.mock('../../middleware/auth-middleware.js', () => {
+    return jest.fn((req, res, next) => {
+      req.employee = {
+        uid: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+        email: "test@test.com"
+      }
+      next();
+    })
+  });
 
 beforeAll(async () => {
     await testServer.initTestServer();
@@ -17,7 +27,7 @@ beforeAll(async () => {
 afterAll(async () => await testServer.stopTestServer());
 
 describe("user route", () => {
-    const testUser = getTestEmployee1();
+    const testUser = getTestAuthEmployee();
 
     it("can sign up a new user", async () => {
         const res = await request

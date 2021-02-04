@@ -5,6 +5,7 @@ const EmployeeSchema = new mongoose.Schema(
     {
         _id: {
             type: String,
+            trim: true,
             required: true
         },
         firstname: {

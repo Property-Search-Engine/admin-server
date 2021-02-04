@@ -9,43 +9,41 @@ const baseProperties = {
 
 const baseDefaultProperties = {
     sold: false,
-    surface: undefined,
-    maxPrice: undefined,
+    maxPrice: Infinity,
     minPrice: 0,
-    publicationDate: undefined,
     filters: [],
 }
 
 const homeProperties = {
     kind: "Home",
-    homeType: "house",
-    bedRooms: 3,
-    bathRooms: 2,
-    equipment: "none",
-    condition: "newHome",
+    homeType: ["house"],
+    bedRooms: ["3"],
+    bathRooms: ["2"],
+    equipment: ["none"],
+    condition: ["newHome"],
     ...baseProperties
 }
 
 const homeDefaultProperties = {
     ...baseDefaultProperties,
     kind: "Home",
-    homeType: "house",
-    bedRooms: undefined,
-    bathRooms: undefined,
-    equipment: undefined,
-    condition: undefined,
+    homeType: [],
+    bedRooms: [],
+    bathRooms: [],
+    equipment: [],
+    condition: [],
 }
 
 const officeProperties = {
     kind: "Office",
-    buildingUse: "private",
+    buildingUse: ["private"],
     ...baseProperties
 }
 
 const officeDefaultProperties = {
     ...baseDefaultProperties,
     kind: "Office",
-    buildingUse: undefined
+    buildingUse: []
 }
 
 const dirtyHome = {

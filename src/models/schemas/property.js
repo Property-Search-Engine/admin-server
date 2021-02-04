@@ -16,6 +16,7 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        index: true
     },
     state: {
         type: String,
@@ -70,6 +71,9 @@ const PropertySchema = new mongoose.Schema(
     {
         employee_id: {
             type: String,
+            ref: "Employee",
+            trim: true,
+            required: true,
             index: true,
         },
         price: {
@@ -117,6 +121,11 @@ const PropertySchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        surface: {
+            type: Number,
+            min: 1,
+            required: true,
+        },
         sold_date: {
             type: Date,
         },
@@ -149,11 +158,6 @@ const HomeSchema = new mongoose.Schema({
     condition: {
         type: String,
         enum: ["newHome", "goodCondition", "needsRenovation"],
-        required: true,
-    },
-    surface: {
-        type: Number,
-        min: 1,
         required: true,
     },
 });

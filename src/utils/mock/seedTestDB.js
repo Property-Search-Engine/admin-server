@@ -5,184 +5,164 @@ const property = {
   description: "This is the house of your dreams",
   filters: ["petsAllowed"],
   images: ["https://geekculture.co/wp-content/uploads/2019/12/Pickle-Rick-3.jpeg"],
+  surface: 200,
   contactInfo: {
-    phone: "7569283938",
-    email: "patata@mail.com"
+    phone: "827948827",
+    email: "pepe@mail.com"
   },
 }
 
-function getTestProperties() {
-  return [
-    {
-      employee_id: "5d6ede6a0ba62570afcedd3a",
-      kind: "Home",
-      homeType: "house",
-      bedRooms: 3,
-      bathRooms: 2,
-      equipment: "full",
-      condition: "newHome",
-      surface: 200,
-      address: {
-        street: "C/Sant Antoni",
-        number: 50,
-        city: "Cerdañola del Vallés",
-        state: "Catalonia",
-        country: "Spain",
-        coordinates: {
-          lat: 0.1234,
-          long: 1.2314
-        }
-      },
-      ...property
+const PROPERTIES = [
+  {
+    employee_id: "5d6ede6a0ba62570afcedd3a",
+    kind: "Home",
+    homeType: "house",
+    bedRooms: 3,
+    bathRooms: 2,
+    equipment: "full",
+    condition: "newHome",
+    address: {
+      street: "C/Sant Antoni",
+      number: 50,
+      city: "Cerdañola del Vallés",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
     },
-    {
-      employee_id: "5d6ede6a0ba62570afcedd3a",
-      kind: "Office",
-      buildingUse: "coWorking",
-      address: {
-        street: "C/Sant Antoni",
-        number: 50,
-        city: "Barcelona",
-        state: "Catalonia",
-        country: "Spain",
-        coordinates: {
-          lat: 0.1234,
-          long: 1.2314
-        }
-      },
-      ...property
+    ...property
+  },
+  {
+    employee_id: "5d6ede6a0ba62570afcedd3a",
+    kind: "Office",
+    buildingUse: "coWorking",
+    address: {
+      street: "C/Sant Antoni",
+      number: 50,
+      city: "Barcelona",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
     },
-    {
-      employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
-      kind: "Home",
-      homeType: "house",
-      bedRooms: 3,
-      bathRooms: 2,
-      equipment: "full",
-      condition: "newHome",
-      surface: 200,
-      address: {
-        street: "C/Sant Antoni",
-        number: 50,
-        city: "Cerdañola de Vallés",
-        state: "Catalonia",
-        country: "Spain",
-        coordinates: {
-          lat: 0.1234,
-          long: 1.2314
-        }
-      },
-      ...property
+    ...property
+  },
+  {
+    employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    kind: "Home",
+    homeType: "house",
+    bedRooms: 3,
+    bathRooms: 2,
+    equipment: "full",
+    condition: "newHome",
+    surface: 200,
+    address: {
+      street: "C/Sant Antoni",
+      number: 50,
+      city: "Cerdañola de Vallés",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
     },
-    {
-      employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
-      kind: "Office",
-      buildingUse: "coWorking",
-      address: {
-        street: "C/Sant a Antoni",
-        number: 50,
-        city: "Barcelona",
-        state: "Catalonia",
-        country: "Spain",
-        coordinates: {
-          lat: 0.1234,
-          long: 1.2314
-        }
-      },
-      ...property
-    }
-  ];
-}
+    ...property
+  },
+  {
+    employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    kind: "Office",
+    buildingUse: "coWorking",
+    address: {
+      street: "C/Sant a Antoni",
+      number: 50,
+      city: "Barcelona",
+      state: "Catalonia",
+      country: "Spain",
+      coordinates: {
+        lat: 0.1234,
+        long: 1.2314
+      }
+    },
+    ...property
+  }
+];
 
-function getTestEmployee() {
-  return [{
-    _id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
-    firstname: "Home",
-    lastname: "house",
-    email: "test@test.com",
-    phone: "323-2423-123",
+const EMPLOYEES = [
+  {
+    _id: "5d6ede6a0ba62570afcedd3a",
+    firstname: "Pepe",
+    lastname: "Martinez",
+    email: "pepe@mail.com",
+    phone: "827948827",
   },
   {
     _id: "5d6ede6a0ba62570afcedd3b",
     firstname: "Home",
     lastname: "house",
     email: "qsdfsdfg@asdasd.com",
-    phone: "323-2423-123",
-  }]
+    phone: "625989438",
+  },
+  {
+    _id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+    firstname: "Pepe",
+    lastname: "Martinez",
+    email: "test@test.com",
+    phone: "827948827",
+  }
+];
+
+async function seedTestPropertiesDB() {
+  const testEmployee = getTestEmployee1();
+
+  const newEmployee = await db.Employee.create(testEmployee);
+
+  const propertiesWithEmployee = PROPERTIES.map(property => ({
+    ...property,
+    employee_id: newEmployee._id
+  }));
+
+  await db.Property.insertMany(propertiesWithEmployee);
 }
 
-// async function seedTestRecibesDB() {
-//   const testUser = getRecipesRoutesTestUser();
-
-//   const newUser = await db.User.create({
-//     ...testUser.user,
-//     password: testUser.unhashedPassword,
-//   });
-
-//   const recipesWithAuthor = RECIPES.map((recipe) => ({
-//     ...recipe,
-//     author: newUser._id,
-//   }));
-
-//   const newRecipes = await db.Recipe.insertMany(recipesWithAuthor);
-
-//   const newRecipesIDS = newRecipes.map((recipe) => recipe._id);
-
-//   const newCommentsWithData = COMMENTS.map((comment) => ({
-//     ...comment,
-//     author: newUser._id,
-//     recipe: getRandomItem(newRecipesIDS),
-//   }));
-
-//   const newComments = await db.Comment.insertMany(newCommentsWithData);
-
-//   newComments.forEach(async (comment) => {
-//     await db.Recipe.findOneAndUpdate(
-//       { _id: comment.recipe },
-//       {
-//         $push: {
-//           comments: [comment._id],
-//         },
-//       },
-//     );
-//   });
-// }
-
-// async function getRecipeWithComments() {
-//   return await db.Recipe.findOne({
-//     $where: "this.comments.length > 1",
-//   });
-// }
-
 function getHome() {
-  return getTestProperties()[0];
+  return PROPERTIES[0];
 }
 
 function getOffice() {
-  return getTestProperties()[1];
+  return PROPERTIES[1];
 }
 function getMyHome() {
-  return getTestProperties()[2];
+  return PROPERTIES[2];
 }
 
 function getMyOffice() {
-  return getTestProperties()[3];
+  return PROPERTIES[3];
 }
 
 function getTestEmployee1() {
-  return getTestEmployee()[0];
+  return EMPLOYEES[0];
 }
 
 function getTestEmployee2() {
-  return getTestEmployee()[1];
+  return EMPLOYEES[1];
+}
+
+function getTestAuthEmployee() {
+  return EMPLOYEES[2];
 }
 
 module.exports = {
-  getTestProperties,
   getHome,
   getOffice,
   getMyHome,
   getMyOffice,
   getTestEmployee1,
   getTestEmployee2,
+  seedTestPropertiesDB,
+  getTestAuthEmployee
 };
