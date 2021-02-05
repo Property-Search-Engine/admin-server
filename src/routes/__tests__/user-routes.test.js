@@ -27,7 +27,6 @@ describe("user route", () => {
         const res = await request
             .post("/user/register")
             .send(testUser);
-        console.log(res.body);
         expect(res.status).toBe(200);
         expect(res.body.data._id).toBeDefined();
         expect(res.body.data.email).toBe(testUser.email);
