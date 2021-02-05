@@ -50,7 +50,7 @@ const PropertySchema = Joi.object({
   }),
   sold: Joi.boolean().default(false),
   surface: Joi.number().min(1).required(),
-  sold_date: Joi.date(),
+  soldDate: Joi.date(),
   ...officeSchema,
   ...homeSchema,
 });
