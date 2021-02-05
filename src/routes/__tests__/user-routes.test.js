@@ -1,30 +1,24 @@
+const MOCK_EMPLOYEE_ID = "10m0nAK1ipeJHDnyBDNsKPWjBJR2";
+const mockAuth = require("../../mock/middleware/auth-middleware")(MOCK_EMPLOYEE_ID, "test@test.com");
+jest.mock('../../middleware/auth-middleware.js', () => mockAuth);
+
 const supertest = require("supertest");
-
-const testServer = require("../../utils/mock/db-test-server");
-const { getTestAuthEmployee, getHome, getMyHome, getMyOffice } = require("../../utils/mock/seedTestDB");
-
+const testServer = require("../../mock/db-test-server");
+const { getTestAuthEmployee, getHome, getMyHome, getMyOffice } = require("../../mock/seedTestDB");
 const app = require("../../server");
-const Employee = require("../../models/employee-model");
 const { Home, Office } = require("../../models/properties-model");
 
 const request = supertest(app);
-
-jest.mock('../../middleware/auth-middleware.js', () => {
-    return jest.fn((req, res, next) => {
-      req.employee = {
-        uid: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
-        email: "test@test.com"
-      }
-      next();
-    })
-  });
 
 beforeAll(async () => {
     await testServer.initTestServer();
 });
 
 //afterEach(async () => await testServer.clearCollection("employees"));
-afterAll(async () => await testServer.stopTestServer());
+afterAll(async () => {
+    await testServer.clearCollections();
+    await testServer.stopTestServer();
+});
 
 describe("user route", () => {
     const testUser = getTestAuthEmployee();

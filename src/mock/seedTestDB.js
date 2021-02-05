@@ -1,4 +1,4 @@
-const db = require("../../models");
+const db = require("../models");
 
 const property = {
   price: 200000,
@@ -112,48 +112,53 @@ const EMPLOYEES = [
     firstname: "Pepe",
     lastname: "Martinez",
     email: "test@test.com",
-    phone: "827948827",
+    phone: "827948527",
   }
 ];
 
 async function seedTestPropertiesDB() {
-  const testEmployee = getTestEmployee1();
+  const employee1 = EMPLOYEES[0];
+  const employee2 = EMPLOYEES[2];
 
-  const newEmployee = await db.Employee.create(testEmployee);
+  await db.Employee.create(employee1);
+  await db.Employee.create(employee2);
 
-  const propertiesWithEmployee = PROPERTIES.map(property => ({
-    ...property,
-    employee_id: newEmployee._id
-  }));
-
-  await db.Property.insertMany(propertiesWithEmployee);
+  await db.Property.insertMany(PROPERTIES);
 }
 
 function getHome() {
-  return PROPERTIES[0];
+  return {
+    ...PROPERTIES[0]
+  };
 }
 
 function getOffice() {
-  return PROPERTIES[1];
+  return {
+    ...PROPERTIES[1]
+  };;
 }
 function getMyHome() {
-  return PROPERTIES[2];
+  return {
+    ...PROPERTIES[2]
+  };
 }
 
 function getMyOffice() {
-  return PROPERTIES[3];
+  return {
+    ...PROPERTIES[3]
+  };
 }
 
 function getTestEmployee1() {
-  return EMPLOYEES[0];
+  return {...EMPLOYEES[0]};
 }
 
 function getTestEmployee2() {
-  return EMPLOYEES[1];
+  return {...EMPLOYEES[1]};
 }
 
 function getTestAuthEmployee() {
-  return EMPLOYEES[2];
+  return {...EMPLOYEES[2]};
 }
 
 module.exports = {

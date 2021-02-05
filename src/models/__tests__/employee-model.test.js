@@ -1,9 +1,12 @@
-const testServer = require("../../utils/mock/db-test-server");
+const testServer = require("../../mock/db-test-server");
 const { Employee } = require("../index");
-const { getTestEmployee2 } = require("../../utils/mock/seedTestDB");
+const { getTestEmployee2 } = require("../../mock/seedTestDB");
 
 beforeAll(async () => await testServer.initTestServer());
-afterEach(async () => await testServer.clearCollection("employees"));
+afterEach(async () => {
+  await testServer.clearCollection("employees")
+  await testServer.clearCollection("properties")
+});
 afterAll(async () => await testServer.stopTestServer());
 
 describe("employee model", () => {
