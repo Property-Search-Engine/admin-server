@@ -1,6 +1,6 @@
 const { auth } = require("../firebase/firebase");
 
-async function authMiddleware(req, res, next) {
+const authMiddleware = () => (req, res, next) => {
     if (
         req.headers.authorization &&
         req.headers.authorization.startsWith("Bearer ")
