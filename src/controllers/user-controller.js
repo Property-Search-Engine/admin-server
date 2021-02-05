@@ -1,27 +1,58 @@
 const db = require("../models");
 const { auth } = require("../firebase/firebase");
-const { validateRegisterData } = require("../middleware/validators/employee-validator")
+const { validateRegisterData } = require("../middleware/validators/employee-validator");
 
 async function register(req, res, next) {
-  const { email, user_id } = await auth.verifyIdToken(req.body.token)
-  const { firstname, lastname, phone } = req.body;
-
-  const { error, value } = validateRegisterData({ firstname, lastname, phone, _id: user_id, email })
-  if (error) {
-    const { message } = error.details[0]
-    return res.status(400).send({ message })
-  }
-  console.log(value)
+  const { firstname, lastname, phone, email, password } = req.body;
   try {
-    const employee = await db.Employee.findOne({ email });
-
-    if (employee) {
-      return res.status(200).send({ data: employee })
-    }
-    const newEmployee = await db.Employee.create({ ...value });
-    res.status(200).send({
-      data: newEmployee
-    });
+    //if registered Firebase -> checkif registered Mongo -> return Document
+    auth.getUserByEmail(email).then(async function (existsUser) {
+      const employee = await db.Employee.findOne({ email });
+      if (employee) {
+        return res.status(200).send({ data: employee })
+      } else {
+        console.log(existsUser)
+        const { error, value } = validateRegisterData({ firstname, lastname, phone, _id: existsUser.uid, email })
+        if (error) {
+          const { message } = error.details[0]
+          return res.status(400).send({ message })
+        }
+        console.log(value)
+        const newEmployee = await db.Employee.create({ ...value });
+        return res.status(200).send({
+          data: newEmployee
+        });
+      }
+    }).catch(async function (FBerror) {
+      switch (FBerror.code) {
+        case 'auth/user-not-found':
+          const newFBUser = await auth.createUser({
+            email, password
+          })
+          console.log('Successfully created new user:', newFBUser.uid);
+          const { error, value } = validateRegisterData({ firstname, lastname, phone, _id: newFBUser.uid, email })
+          if (error) {
+            const { message } = error.details[0]
+            return res.status(400).send({ message })
+          }
+          console.log(value)
+          try {
+            const newEmployee = await db.Employee.create({ ...value });
+            if (newEmployee) {
+              return res.status(200).send({
+                data: newEmployee
+              });
+            }
+          } catch (error) {
+            next(error)
+          }
+          break;
+        default:
+          return res.status(400).send({
+            message: FBerror.message
+          })
+      }
+    })
   } catch (error) {
     next(error);
   }
