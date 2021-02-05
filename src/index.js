@@ -7,7 +7,7 @@ const { clearCollections } = require("./utils/mock/db-test-server");
 
 connect()
   .then(async () => {
-    await clearCollections();
+    //await clearCollections();
 
     app.listen(config.port, () => {
       config.logger.debug(
