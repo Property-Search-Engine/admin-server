@@ -11,13 +11,11 @@ async function register(req, res, next) {
       if (employee) {
         return res.status(200).send({ data: employee })
       } else {
-        console.log(existsUser)
         const { error, value } = validateRegisterData({ firstname, lastname, phone, _id: existsUser.uid, email })
         if (error) {
           const { message } = error.details[0]
           return res.status(400).send({ message })
         }
-        console.log(value)
         const newEmployee = await db.Employee.create({ ...value });
         return res.status(200).send({
           data: newEmployee
@@ -29,13 +27,11 @@ async function register(req, res, next) {
           const newFBUser = await auth.createUser({
             email, password
           })
-          console.log('Successfully created new user:', newFBUser.uid);
           const { error, value } = validateRegisterData({ firstname, lastname, phone, _id: newFBUser.uid, email })
           if (error) {
             const { message } = error.details[0]
             return res.status(400).send({ message })
           }
-          console.log(value)
           try {
             const newEmployee = await db.Employee.create({ ...value });
             if (newEmployee) {
@@ -47,6 +43,8 @@ async function register(req, res, next) {
             next(error)
           }
           break;
+        case "auth/id-token-expired":
+          return res.status(401).send({ message: "Firebase ID token has expired." })
         default:
           return res.status(400).send({
             message: FBerror.message
