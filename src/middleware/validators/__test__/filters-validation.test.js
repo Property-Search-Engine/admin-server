@@ -1,8 +1,8 @@
 const {
     getDefaultHome, getDefaultOffice
-} = require("../../../mock/requests/properties");
+} = require("../../../mock/requests/filters");
 
-const { validateSearchFilters } = require("../properties-validator");
+const validateSearchFilters = require("../filters-validator");
 
 describe("joi validates filtering", () => {
     it("can validate home filters", async () => {
