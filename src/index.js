@@ -3,11 +3,11 @@ require("dotenv").config();
 const app = require("./server");
 const config = require("./config");
 const connect = require("./db/connect");
-const { clearCollections } = require("./utils/mock/db-test-server");
+// const { clearCollections } = require("./utils/mock/db-test-server");
 
 connect()
   .then(async () => {
-    await clearCollections();
+    // await clearCollections();
 
     app.listen(config.port, () => {
       config.logger.debug(
