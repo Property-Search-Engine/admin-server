@@ -158,7 +158,6 @@ async function setPropertyAsSold(req, res, next) {
 
   //get property by id
   const property = await db.Property.findById(propertyID)
-    .lean()
     .exec()
     .catch(next);
 
@@ -176,7 +175,7 @@ async function setPropertyAsSold(req, res, next) {
   await property.save().catch(next);
 
   res.status(200).send({
-    data: property,
+    data: property.toObject(),
     error: null,
   });
 }

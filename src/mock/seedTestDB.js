@@ -118,7 +118,7 @@ const EMPLOYEES = [
 
 async function seedTestPropertiesDB() {
   const employee1 = EMPLOYEES[0];
-  const employee2 = EMPLOYEES[2]; 
+  const employee2 = EMPLOYEES[2];
 
   await db.Employee.create(employee1);
   await db.Employee.create(employee2);
@@ -127,30 +127,38 @@ async function seedTestPropertiesDB() {
 }
 
 function getHome() {
-  return PROPERTIES[0];
+  return {
+    ...PROPERTIES[0]
+  };
 }
 
 function getOffice() {
-  return PROPERTIES[1];
+  return {
+    ...PROPERTIES[1]
+  };;
 }
 function getMyHome() {
-  return PROPERTIES[2];
+  return {
+    ...PROPERTIES[2]
+  };
 }
 
 function getMyOffice() {
-  return PROPERTIES[3];
+  return {
+    ...PROPERTIES[3]
+  };
 }
 
 function getTestEmployee1() {
-  return EMPLOYEES[0];
+  return {...EMPLOYEES[0]};
 }
 
 function getTestEmployee2() {
-  return EMPLOYEES[1];
+  return {...EMPLOYEES[1]};
 }
 
 function getTestAuthEmployee() {
-  return EMPLOYEES[2];
+  return {...EMPLOYEES[2]};
 }
 
 module.exports = {

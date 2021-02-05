@@ -6,6 +6,7 @@ const supertest = require("supertest");
 const testServer = require("../../mock/db-test-server");
 const app = require("../../server");
 const setupTestDB = require("../../mock/seedTestDB");
+const db =  require("../../models");
 
 const request = supertest(app);
 
@@ -129,6 +130,19 @@ describe("Private property routes", () => {
     expect(res.body.data).toMatchObject(SAVED_PROPERTY.body.data);
   });
 
+  it("cant delete not owned property", async () => {
+    const TEST_PROPERTY = await setupTestDB.getHome();
+    TEST_PROPERTY.employee_id = "dsfiojfgb";
+    TEST_PROPERTY.address.city = "patata";
+    const property = await db.Home.create(TEST_PROPERTY);
+
+    const res = await request.del(
+      `/properties/${property._id}`,
+    );
+    expect(res.status).toBe(403);
+    expect(res.body.error).toMatch("You cannot access this property");
+  });
+
   it("can mark property as sold", async () => {
     const TEST_PROPERTY = await setupTestDB.getHome();
     TEST_PROPERTY.address.city = "Basilea";
@@ -137,15 +151,12 @@ describe("Private property routes", () => {
       .post("/properties")
       .send(TEST_PROPERTY);
 
-    const NEW_PROPERTY = await setupTestDB.getHome();
-    NEW_PROPERTY.sold = true;
-
     const res = await request
-      .put(`/properties/${SAVED_PROPERTY.body.data._id}`)
-      .send(NEW_PROPERTY);
+      .patch(`/properties/${SAVED_PROPERTY.body.data._id}/sold`);
 
     expect(res.status).toBe(200);
-    expect(res.body.data).toMatchObject(NEW_PROPERTY);
+    expect(res.body.data).toMatchObject(TEST_PROPERTY);
+    expect(res.body.data.sold).toBe(true);
   });
 
   it("property not found gives proper error", async () => {
