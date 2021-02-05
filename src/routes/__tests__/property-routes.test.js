@@ -86,7 +86,6 @@ describe("Private property routes", () => {
     const res = await request.del(
       `/properties/${SAVED_PROPERTY.body.data._id}`,
     );
-    console.log(res.body.data);
     expect(res.status).toBe(200);
     expect(res.body.data).toMatchObject(SAVED_PROPERTY.body.data);
   });
@@ -110,7 +109,10 @@ describe("Private property routes", () => {
     expect(res.body.data).toMatchObject(NEW_PROPERTY);
   });
 
-  //TODO: try to get a property that doesn't exist
+  it("property not found gives proper error", async () => {
+    const res = await request.get(`/properties/601d11bc54f8fc0013d16a01`);
+    expect(res.status).toBe(404);
+  });
 });
 
 // describe("Public recipe routes", () => {
