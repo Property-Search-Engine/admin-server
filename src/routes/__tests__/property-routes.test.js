@@ -66,7 +66,8 @@ describe("Private property routes", () => {
       .set('Accept', 'application/json');
 
     expect(res.status).toBe(400);
-    expect(res.body.errors[0].message).toBe('"kind" must be one of [Home, Office]');
+    console.log(res.body);
+    expect(res.body.error[0].message).toBe('"kind" must be one of [Home, Office]');
   })
 
   it("can return empty array when no properties found", async () => {

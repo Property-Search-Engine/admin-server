@@ -43,10 +43,7 @@ async function validateSearchFilters(req, res, next) {
         req.query = await filtersSchema.validateAsync(req.query);
         next();
     } catch (err) {
-        res.status(400).send({
-            data: null,
-            errors: err.details,
-        });
+        next({ statusCode: 400, message: err.details });
     }
 }
 
