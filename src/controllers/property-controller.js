@@ -140,10 +140,11 @@ async function createProperty(req, res, next) {
 
   const propertyData = { employee_id: employee._id, ...req.body, contactInfo };
 
-  const property =
+  const property = await (
     kind === "Home"
-      ? await db.Home.create(propertyData).catch(next)
-      : await db.Office.create(propertyData).catch(next);
+      ? db.Home.create(propertyData).catch(next)
+      : db.Office.create(propertyData).catch(next)
+  );
 
   res.status(201).send({
     data: property,
