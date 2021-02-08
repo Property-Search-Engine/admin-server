@@ -1,23 +1,20 @@
 const { Router } = require("express");
-const passport = require("passport");
+const { validateRegisterData, validateUpdateData } = require("../middleware/validators/employee-validator");
 
 const userRouter = Router();
 
-const userController = require("../controllers/user-controller");
+const {
+    register,
+    login,
+    deleteUser,
+    update,
+    stats
+} = require("../controllers/user-controller");
 
-userRouter.post("/user/sign-up", userController.signUp);
-userRouter.post("/user/login", userController.login);
-
-userRouter.post(
-  "/user/logout",
-  passport.authenticate("jwt", { session: false }),
-  userController.logout,
-);
-
-userRouter.get(
-  "/user/me",
-  passport.authenticate("jwt", { session: false }),
-  userController.me,
-);
+userRouter.post("/register", validateRegisterData, register);
+userRouter.post("/login", login);
+userRouter.delete("/", deleteUser);
+userRouter.put("/profile", validateUpdateData, update);
+userRouter.get("/statistics", stats);
 
 module.exports = userRouter;

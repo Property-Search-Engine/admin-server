@@ -1,6 +1,6 @@
 const { auth } = require("../firebase/firebase");
 
-async function authMiddleware(req, res, next) {
+const authMiddleware = () => async (req, res, next) => {
     if (
         req.headers.authorization &&
         req.headers.authorization.startsWith("Bearer ")
@@ -10,13 +10,12 @@ async function authMiddleware(req, res, next) {
         try {
             const userClaims = await auth.verifyIdToken(bearerToken);
 
-            const { email, uid } = userClaims;
+            const { email, user_id } = userClaims;
 
-            req.user = {
+            req.employee = {
                 email: email,
-                uid: uid,
+                uid: user_id,
             };
-
             next();
         } catch (error) {
             next(error);
@@ -29,6 +28,4 @@ async function authMiddleware(req, res, next) {
     }
 }
 
-module.exports = {
-    authMiddleware: authMiddleware,
-};
+module.exports = authMiddleware;

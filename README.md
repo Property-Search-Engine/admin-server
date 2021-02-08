@@ -50,19 +50,14 @@ $ make run_dev
 ## Test ✅
 
 ```bash
-$ cd nodejs
 $ make test_watch
 ```
 
 This is going to run all the tests inside a docker environment. If you want to
 have more control over how the tests are performed, you can run:
 
-### Node Server
-
 ```bash
-$ cd nodejs
 $ make up
-
 > $ npm run test # ex.
 ```
 

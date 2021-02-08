@@ -3,17 +3,14 @@ const morgan = require("morgan");
 const { json } = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
-const { authMiddleware } = require("./middleware/auth-middleware")
-
+const auth = require("./middleware/auth-middleware")
 require("dotenv").config();
 
 const app = express();
 
 const errorMiddleware = require("./middleware/error-middleware");
 const userRouter = require("./routes/user-routes");
-const recipesRouter = require("./routes/recipes-routes");
-
-const auth = require("./utils/auth/passport");
+const propertyRouter = require("./routes/property-routes");
 
 app.use(morgan("dev"));
 app.use(helmet());
@@ -25,11 +22,9 @@ app.use(
   }),
 );
 
-app.use(auth.initialize);
-
-app.use(userRouter);
-app.use(recipesRouter);
-
+app.use(auth());
+app.use("/user", userRouter);
+app.use("/properties", propertyRouter);
 app.use(errorMiddleware);
 
 module.exports = app;

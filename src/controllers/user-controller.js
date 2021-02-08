@@ -1,140 +1,83 @@
-const passport = require("passport");
-
 const db = require("../models");
+const { getFbUserOrCreate } = require("../utils/auth/firebase");
 
-const generateJWT = require("../utils/auth/generateJWT");
-const getSanitizedUser = require("../utils/auth/getSanitizedUser");
-
-async function signUp(req, res, next) {
-  passport.authenticate("signup", async (error, user, info) => {
-    if (error) {
-      return next(error);
-    }
-
-    if (!user) {
-      return res.status(400).send({
-        data: null,
-        error: "Already signed up",
-      });
-    }
-
-    const { name, lastname, email, password } = req.body;
-
-    if (!name || !lastname || !email || !password) {
-      res.status(400).send({
-        data: null,
-        error: "Missing Fields",
-      });
-    }
-
-    req.login(user, { session: false }, async (error) => {
-      if (error) return next(error);
-
-      const newUser = await db.User.create({
-        name: name,
-        lastname: lastname,
-        email: user,
-        password: password,
-      }).catch((error) => {
-        return next(error);
-      });
-
-      const token = generateJWT(newUser._id, next);
-
-      newUser.token = token;
-
-      await newUser.save().catch(next);
-
-      const sanitizedUser = getSanitizedUser(newUser.toObject());
-
-      res.status(201).send({
-        data: {
-          user: sanitizedUser,
-          token: token,
-        },
-        error: null,
-      });
-    });
-  })(req, res, next);
+async function register(req, res, next) {
+  const { email, password } = req.body;
+  //if registered Firebase -> checkif registered Mongo -> return Document
+  const fbUser = await getFbUserOrCreate(email, password).catch(next);
+  let employee = await db.Employee.findById(fbUser.uid)
+    .lean()
+    .exec()
+    .catch(next);
+  if (!employee) {
+    employee = await db.Employee.create({ _id: fbUser.uid, ...req.body }).catch(next);
+  }
+  res.status(200).send({ data: employee })
 }
 
 async function login(req, res, next) {
-  passport.authenticate("login", async (error, user, info) => {
-    if (error) {
-      return next(error);
-    }
+  const { uid } = req.employee;
+  const employee = await db.Employee.findById(uid)
+    .lean()
+    .exec()
+    .catch(next);
+  if (!employee) next({ statusCode: 404, message: "User not found." });
+  else res.status(200).send({ data: employee });
+}
 
-    if (!user) {
-      return res.status(400).send({
-        data: null,
-        error: "Unauthorized",
-      });
-    }
+async function deleteUser(req, res, next) {
+  const { uid } = req.employee
+  await db.Employee.findByIdAndDelete(uid).catch(next);
+  await db.Property.deleteMany({ employee_id: uid }).catch(next);
+  res.status(202).send({ message: "Employee deleted", error: null })
+}
 
-    req.login(user, { session: false }, async (error) => {
-      if (error) return next(error);
+async function update(req, res, next) {
+  const { uid } = req.employee;
+  const { firstname, lastname, phone } = req.body;
 
-      try {
-        const token = generateJWT(user._id, next);
+  const employee = await db.Employee.findByIdAndUpdate(
+    uid,
+    { firstname, lastname, phone },
+    { new: true }
+  )
+    .lean()
+    .exec()
+    .catch(next);
 
-        await db.User.findByIdAndUpdate(user._id, { token: token }).catch(next);
+  res.status(201).send({ data: employee })
+}
 
-        // Send back the token to the user
-        return res.status(200).send({
-          data: {
-            user: user,
-            token: token,
-          },
-          error: null,
-        });
-      } catch (error) {
-        return next(error);
+async function stats(req, res, next) {
+  const { uid } = req.employee
+  const myProperties = await db.Property.aggregate([
+    {
+      "$match": {
+        "employee_id": { "$eq": uid },
       }
-    });
-  })(req, res, next);
-}
-
-async function me(req, res) {
-  if (req.user) {
-    res.status(200).send({
-      data: {
-        user: req.user,
-      },
-      error: null,
-    });
+    },
+    {
+      "$group": {
+        "_id": "$employee_id",
+        "revenue": {
+          "$sum": { $cond: ["$sold", "$price", 0] }
+        },
+        "sold": { "$sum": { $cond: ["$sold", 1, 0] } },
+        "available": { "$sum": { $cond: ["$sold", 0, 1] } }
+      }
+    }
+  ]).catch(next);
+  if (myProperties.length > 0) {
+    res.status(201).send({ data: myProperties[0] })
   } else {
-    res.status(401).send({
-      data: null,
-      error: "Unauthorized",
-    });
-  }
-}
-
-async function logout(req, res, next) {
-  if (req.user) {
-    const user = req.user;
-
-    const dbUser = await db.User.findOne({ email: user.email }).catch(next);
-    dbUser.token = null;
-    await dbUser.save().catch(next);
-
-    req.logout();
-
-    return res.status(200).send({
-      data: "Ok",
-      error: null,
-    });
-  } else {
-    res.status(401).send({
-      data: null,
-      error: "Unauthorized",
-    });
+    next({ statusCode: 404, message: "User not found." })
   }
 }
 
 module.exports = {
-  signUp,
+  register,
   login,
-  logout,
-  me,
+  deleteUser,
+  update,
+  stats
 };
