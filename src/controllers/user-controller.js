@@ -59,7 +59,9 @@ async function stats(req, res, next) {
     {
       "$group": {
         "_id": "$employee_id",
-        "revenue": { "$sum": "$price" },
+        "revenue": {
+          "$sum": { $cond: ["$sold", "$price", 0] }
+        },
         "sold": { "$sum": { $cond: ["$sold", 1, 0] } },
         "available": { "$sum": { $cond: ["$sold", 0, 1] } }
       }
