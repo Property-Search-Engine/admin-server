@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-
 const config = require("../../config");
 
 function generateJWT(userID, next) {

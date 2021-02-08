@@ -4,7 +4,6 @@ const { json } = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const auth = require("./middleware/auth-middleware")
-require("dotenv").config();
 
 const app = express();
 

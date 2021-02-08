@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
-
 const config = require("../config");
 
 function connect() {
