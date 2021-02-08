@@ -28,7 +28,7 @@ const PropertySchema = Joi.object({
   kind: Joi.string().valid("Home", "Office").required(),
   price: Joi.number().integer().min(0).required(),
   description: Joi.string().trim().required(),
-  filters: Joi.array.items(Joi.string().valid(
+  filters: Joi.array().items(Joi.string().valid(
     "petsAllowed",
     "lift",
     "garden",

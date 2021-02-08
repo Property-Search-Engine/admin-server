@@ -9,83 +9,81 @@ async function searchProperty(req, res, next) {
   const { uid } = req.employee;
   const filters = req.query;
 
-  const properties = await
-    (filters.kind == "Home" ?
-      db.Home.find({
-        employee_id: uid,
-        ...buildPropertyBaseMatchingRules(filters),
-        ...buildHomeMatchingRules(filters)
-      })
-      : db.Office.find({
-        employee_id: uid,
-        ...buildPropertyBaseMatchingRules(filters),
-        ...buildOfficeMatchingRules(filters)
-      })
-    )
-      .sort({ created_at: -1 })
-      .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
-      .lean()
-      .exec()
-      .catch(next);
+  try {
+    const properties = await
+      (filters.kind == "Home" ?
+        db.Home.find({
+          employee_id: uid,
+          ...buildPropertyBaseMatchingRules(filters),
+          ...buildHomeMatchingRules(filters)
+        })
+        : db.Office.find({
+          employee_id: uid,
+          ...buildPropertyBaseMatchingRules(filters),
+          ...buildOfficeMatchingRules(filters)
+        })
+      )
+        .sort({ created_at: -1 })
+        .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
+        .lean()
+        .exec()
 
-  res.status(200).send({
-    data: properties,
-    error: null,
-  });
+    res.status(200).send({
+      data: properties,
+      error: null,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function getPropertyById(req, res, next) {
   const { uid } = req.employee;
   const propertyID = req.params.propertyID;
 
-  const property = await db.Property.findById(propertyID)
-    .lean()
-    .exec()
-    .catch(next);
+  try {
+    const property = await db.Property.findById(propertyID)
+      .lean()
+      .exec();
 
-  if (!property) {
-    next({ statusCode: 404, message: "Property not found" })
-    return;
-  }
-  if (property.employee_id != uid) {
-    next({ statusCode: 403, message: "You cannot access this property" })
-    return;
-  }
+    if (!property) {
+      return next({ statusCode: 404, message: "Property not found" });
+    }
+    if (property.employee_id != uid) {
+      return next({ statusCode: 403, message: "You cannot access this property" });
+    }
 
-  res.status(200).send({
-    data: property,
-    error: null,
-  });
+    res.status(200).send({
+      data: property,
+      error: null,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function deleteProperty(req, res, next) {
   const { uid } = req.employee;
   const propertyID = req.params.propertyID;
 
-  //get property by id
-  const propertyFound = await db.Property.findById(propertyID)
-    .lean()
-    .exec()
-    .catch(next);
+  try {
+    const propertyFound = await db.Property.findById(propertyID)
+      .lean()
+      .exec();
 
-  if (!propertyFound) {
-    next({ statusCode: 404, message: "Property not found" })
-    return;
+    if (!propertyFound) return next({ statusCode: 404, message: "Property not found" });
+    if (propertyFound.employee_id != uid) return next({ statusCode: 403, message: "You cannot access this property" });
+
+    const property = await db.Property.findByIdAndDelete(propertyID)
+      .lean()
+      .exec();
+    res.status(200).send({
+      data: property,
+      error: null,
+    });
+  } catch (err) {
+    next(err);
   }
-  if (propertyFound.employee_id != uid) {
-    next({ statusCode: 403, message: "You cannot access this property" })
-    return;
-  }
-
-  const property = await db.Property.findByIdAndDelete(propertyID)
-    .lean()
-    .exec()
-    .catch(next);
-
-  res.status(200).send({
-    data: property,
-    error: null,
-  });
 }
 
 async function editProperty(req, res, next) {
@@ -93,91 +91,81 @@ async function editProperty(req, res, next) {
   const { kind } = req.body;
   const propertyID = req.params.propertyID;
 
-  //get property by id
-  const propertyFound = await db.Property.findById(propertyID)
-    .lean()
-    .exec()
-    .catch(next);
-
-  if (!propertyFound) {
-    next({ statusCode: 404, message: "Property not found" })
-    return;
-  }
-  if (propertyFound.employee_id != uid) {
-    next({ statusCode: 403, message: "You cannot access this property" })
-    return;
-  }
-
-  const propertyData = { ...req.body };
-
-  const property = await
-    (kind === "Home" ? db.Home : db.Office)
-      .findByIdAndUpdate(propertyID, propertyData, {
-        new: true,
-      })
+  try {
+    const propertyFound = await db.Property.findById(propertyID)
       .lean()
-      .exec()
-      .catch(next);
+      .exec();
 
-  res.status(200).send({
-    data: property,
-    error: null,
-  });
+    if (!propertyFound) return next({ statusCode: 404, message: "Property not found" });
+    if (propertyFound.employee_id != uid) return next({ statusCode: 403, message: "You cannot access this property" });
+
+    const propertyData = { ...req.body };
+
+    const property = await
+      (kind === "Home" ? db.Home : db.Office)
+        .findByIdAndUpdate(propertyID, propertyData, {
+          new: true,
+        })
+        .lean()
+        .exec();
+
+    res.status(200).send({
+      data: property,
+      error: null,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function createProperty(req, res, next) {
   const { kind } = req.body;
   const { uid, email } = req.employee;
 
-  //get employee with db.Employee.findbyId ( uid)
-  const employee = await db.Employee.findById(uid).lean().exec().catch(next);
-  //grab email, id, phone
-  //const contactinfo with those params
-  const contactInfo = {
-    phone: employee.phone,
-    email: email,
-  };
+  try {
+    const employee = await db.Employee.findById(uid).lean().exec();
 
-  const propertyData = { employee_id: employee._id, ...req.body, contactInfo };
+    const contactInfo = {
+      phone: employee.phone,
+      email: email,
+    };
+    const propertyData = { employee_id: employee._id, ...req.body, contactInfo };
 
-  const property = await (
-    kind === "Home"
-      ? db.Home.create(propertyData).catch(next)
-      : db.Office.create(propertyData).catch(next)
-  );
+    const property =
+      kind === "Home"
+        ? await db.Home.create(propertyData)
+        : await db.Office.create(propertyData);
 
-  res.status(201).send({
-    data: property,
-    error: null,
-  });
+    res.status(201).send({
+      data: property,
+      error: null,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function setPropertyAsSold(req, res, next) {
   const { uid } = req.employee;
   const { propertyID } = req.params;
 
-  //get property by id
-  const property = await db.Property.findById(propertyID)
-    .exec()
-    .catch(next);
+  try {
+    const property = await db.Property.findById(propertyID).exec();
 
-  if (!property) {
-    next({ statusCode: 404, message: "Property not found" })
-    return;
+    if (!property) return next({ statusCode: 404, message: "Property not found" });
+    if (property.employee_id != uid) return next({ statusCode: 403, message: "You cannot access this property" });
+
+    property.sold = true;
+    property.soldDate = Date.now();
+    await property.save();
+
+    res.status(200).send({
+      data: property.toObject(),
+      error: null,
+    });
+  } catch (err) {
+    next(err);
   }
-  if (property.employee_id != uid) {
-    next({ statusCode: 403, message: "You cannot access this property" })
-    return;
-  }
-
-  property.sold = true;
-  property.soldDate = Date.now();
-  await property.save().catch(next);
-
-  res.status(200).send({
-    data: property.toObject(),
-    error: null,
-  });
 }
 
 module.exports = {

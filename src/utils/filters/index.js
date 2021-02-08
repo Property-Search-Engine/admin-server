@@ -15,7 +15,7 @@ function buildHomeMatchingRules(filters) {
         condition: filters.condition.length > 0 && { $in: filters.condition } || { $exists: true },
 
         bedRooms: filters.bedRooms.length > 0 ?
-            !filters.bedRooms.includes("4+")
+            !filters.bedRooms.includes("4p")
             && { $in: filters.bedRooms }
             || {
                 $or: [{ $in: filters.bedRooms }, { $gte: 4 }]
@@ -23,7 +23,7 @@ function buildHomeMatchingRules(filters) {
             : { $exists: true },
 
         bathRooms: filters.bathRooms.length > 0 ?
-            !filters.bathRooms.includes("3+")
+            !filters.bathRooms.includes("3p")
             && { $in: filters.bathRooms }
             || {
                 $or: [{ $in: filters.bathRooms }, { $gte: 3 }]
