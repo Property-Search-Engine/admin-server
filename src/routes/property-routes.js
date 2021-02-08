@@ -12,7 +12,6 @@ const validateSearchFilters = require("../middleware/validators/filters-validato
 
 propertyRouter.get("/", validateSearchFilters, searchProperty);
 propertyRouter.get("/:propertyID", getPropertyById);
-//TODO: Add validator
 propertyRouter.post("/", createProperty);
 propertyRouter.put("/:propertyID", editProperty);
 propertyRouter.delete("/:propertyID", deleteProperty);

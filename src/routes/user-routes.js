@@ -1,13 +1,20 @@
 const { Router } = require("express");
+const { validateRegisterData, validateUpdateData } = require("../middleware/validators/employee-validator");
 
 const userRouter = Router();
 
-const userController = require("../controllers/user-controller");
+const {
+    register,
+    login,
+    deleteUser,
+    update,
+    stats
+} = require("../controllers/user-controller");
 
-userRouter.post("/register", userController.register);
-userRouter.post("/login", userController.login);
-userRouter.delete("/", userController.deleteUser);
-userRouter.put("/profile", userController.update);
-userRouter.get("/statistics", userController.stats);
+userRouter.post("/register", validateRegisterData, register);
+userRouter.post("/login", login);
+userRouter.delete("/", deleteUser);
+userRouter.put("/profile", validateUpdateData, update);
+userRouter.get("/statistics", stats);
 
 module.exports = userRouter;

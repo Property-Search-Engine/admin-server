@@ -10,11 +10,11 @@ const authMiddleware = () => (req, res, next) => {
         try {
             const userClaims = await auth.verifyIdToken(bearerToken);
 
-            const { email, uid } = userClaims;
+            const { email, user_id } = userClaims;
 
             req.employee = {
                 email: email,
-                uid: uid,
+                uid: user_id,
             };
             next();
         } catch (error) {

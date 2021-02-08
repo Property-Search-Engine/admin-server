@@ -36,6 +36,10 @@ const EmployeeSchema = new mongoose.Schema(
             required: [true, "The phone number field is required"],
             trim: true,
             unique: true,
+            validate: {
+                validator: (phone) => validator.isMobilePhone(phone),
+                message: (props) => `${props.value} is not a valid phone number`,
+            },
         },
     },
     {
