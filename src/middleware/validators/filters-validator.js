@@ -9,8 +9,8 @@ const homeFilters = {
     homeType: stringArrayEnum("flatApartment", "house", "duplex", "penthouse"),
     equipment: stringArrayEnum("none", "partial", "full"),
     condition: stringArrayEnum("newHome", "goodCondition", "needsRenovation"),
-    bedRooms: stringArrayEnum("1", "2", "3", "4+"),
-    bathRooms: stringArrayEnum("1", "2", "3+"),
+    bedRooms: stringArrayEnum("1", "2", "3", "4p"),
+    bathRooms: stringArrayEnum("1", "2", "3p"),
 };
 
 const officeFilters = {
