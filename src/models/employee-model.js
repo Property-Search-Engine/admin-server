@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 const EmployeeSchema = require("./schemas/employee")
 
