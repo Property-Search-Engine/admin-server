@@ -1,7 +1,7 @@
 const config = require("../config");
 
 module.exports = (err, req, res, next) => {
-  if (req.headersSent) next(err);
+  if (req.headersSent) { return next(err) };
   const statusCode = err.statusCode || 500;
   const message = err.message || "Something went wrong";
 
