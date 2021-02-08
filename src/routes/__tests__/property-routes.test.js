@@ -108,14 +108,14 @@ describe("Private property routes", () => {
       .post("/properties")
       .send(TEST_PROPERTY);
 
-    const NEW_PROPERTY = await setupTestDB.getHome();
+    const NEW_PROPERTY = TEST_PROPERTY;
     NEW_PROPERTY.address.city = "Test City";
     NEW_PROPERTY.images = [
       "https://defendernetwork.com/wp-content/uploads/2018/11/snoopdogg_bibleoflove_publicityimage1.jpg",
     ];
 
     const res = await request
-      .put(`/properties/${SAVED_PROPERTY.body.data._id}`)
+      .patch(`/properties/${SAVED_PROPERTY.body.data._id}`)
       .send(NEW_PROPERTY);
 
     expect(res.status).toBe(200);
@@ -124,7 +124,7 @@ describe("Private property routes", () => {
 
   it("can delete property", async () => {
     const TEST_PROPERTY = { ...testHome };
-    TEST_PROPERTY.address.city = "Manila";
+    TEST_PROPERTY.address.city = "vefgdf";
 
     const SAVED_PROPERTY = await request
       .post("/properties")
