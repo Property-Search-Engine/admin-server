@@ -6,13 +6,20 @@ const supertest = require("supertest");
 const testServer = require("../../mock/db-test-server");
 const app = require("../../server");
 const setupTestDB = require("../../mock/seedTestDB");
-const db =  require("../../models");
+const db = require("../../models");
+const dbTestServer = require("../../mock/db-test-server");
 
 const request = supertest(app);
+
+let testHome = {};
 
 beforeAll(async () => {
   await testServer.initTestServer();
   await setupTestDB.seedTestPropertiesDB();
+  const TEST_PROPERTY = { ...await setupTestDB.getHome() };
+  delete TEST_PROPERTY.employee_id;
+  delete TEST_PROPERTY.contactInfo;
+  testHome = TEST_PROPERTY;
 });
 
 afterAll(async () => {
@@ -22,7 +29,7 @@ afterAll(async () => {
 
 describe("Private property routes", () => {
   it("can get property by Id", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...testHome };
     //insert into db test_property with create property
     TEST_PROPERTY.address.city = "Tarragona";
     const SAVED_PROPERTY = await request
@@ -37,7 +44,7 @@ describe("Private property routes", () => {
   });
 
   it("can add property to db", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...testHome };
     TEST_PROPERTY.address.city = "Buenos Aires";
 
     const res = await request.post("/properties").send(TEST_PROPERTY);
@@ -94,7 +101,7 @@ describe("Private property routes", () => {
   })
 
   it("can edit property", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...testHome };
     TEST_PROPERTY.address.city = "Manila";
 
     const SAVED_PROPERTY = await request
@@ -116,7 +123,7 @@ describe("Private property routes", () => {
   });
 
   it("can delete property", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...testHome };
     TEST_PROPERTY.address.city = "Manila";
 
     const SAVED_PROPERTY = await request
@@ -131,7 +138,7 @@ describe("Private property routes", () => {
   });
 
   it("cant delete not owned property", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...await setupTestDB.getHome() };
     TEST_PROPERTY.employee_id = "dsfiojfgb";
     TEST_PROPERTY.address.city = "patata";
     const property = await db.Home.create(TEST_PROPERTY);
@@ -144,7 +151,7 @@ describe("Private property routes", () => {
   });
 
   it("can mark property as sold", async () => {
-    const TEST_PROPERTY = await setupTestDB.getHome();
+    const TEST_PROPERTY = { ...testHome };
     TEST_PROPERTY.address.city = "Basilea";
 
     const SAVED_PROPERTY = await request
