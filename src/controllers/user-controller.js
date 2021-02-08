@@ -45,7 +45,8 @@ async function update(req, res, next) {
     .exec()
     .catch(next);
 
-  res.status(201).send({ data: employee })
+  if (!employee) next({ statusCode: 404, message: "User not found." });
+  else res.status(200).send({ data: employee });
 }
 
 async function stats(req, res, next) {

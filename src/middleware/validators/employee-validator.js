@@ -12,6 +12,7 @@ const registerUserSchema = Joi.object({
     lastname: Joi.string().min(3).max(255).required(),
     phone: Joi.string().min(6).max(255).required(),
     email: Joi.string().email().required(),
+    password: Joi.string().min(3).max(255).trim().required()
 });
 
 async function validateRegisterData(req, res, next) {
