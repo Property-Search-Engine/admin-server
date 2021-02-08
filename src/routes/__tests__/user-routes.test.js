@@ -24,9 +24,11 @@ describe("user route", () => {
     const testUser = getTestAuthEmployee();
 
     it("can sign up a new user", async () => {
+        let newUser = { password: "patata", ...testUser };
         const res = await request
             .post("/user/register")
-            .send(testUser);
+            .send(newUser);
+
         expect(res.status).toBe(200);
         expect(res.body.data._id).toBeDefined();
         expect(res.body.data.email).toBe(testUser.email);
@@ -58,7 +60,7 @@ describe("user route", () => {
     it("can update", async () => {
         const loginRes = await request.put("/user/profile")
             .send({ firstname: "Changed", lastname: "Changed", phone: "123-123-123" });
-        expect(loginRes.status).toBe(201);
+        expect(loginRes.status).toBe(200);
         expect(loginRes.body.data.phone).toEqual("123-123-123");
         expect(loginRes.body.data.firstname).toEqual("Changed");
         expect(loginRes.body.data.lastname).toEqual("Changed");
