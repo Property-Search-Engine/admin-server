@@ -1,17 +1,17 @@
 const Joi = require("joi")
 
 const updateUserSchema = Joi.object({
-    firstname: Joi.string().min(6).max(255).required(),
-    lastname: Joi.string().min(6).max(255).required(),
+    firstname: Joi.string().min(3).max(255).required(),
+    lastname: Joi.string().min(3).max(255).required(),
     phone: Joi.string().min(6).max(255).required(),
 });
 
 const registerUserSchema = Joi.object({
     _id: Joi.string(),
-    firstname: Joi.string().min(6).max(255).required(),
-    lastname: Joi.string().min(6).max(255).required(),
+    firstname: Joi.string().min(3).max(255).required(),
+    lastname: Joi.string().min(3).max(255).required(),
     phone: Joi.string().min(6).max(255).required(),
-    email: Joi.string().min(6).max(255).required().email(),
+    email: Joi.string().email().required(),
 });
 
 async function validateRegisterData(req, res, next) {

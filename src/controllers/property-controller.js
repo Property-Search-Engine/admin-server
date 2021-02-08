@@ -153,7 +153,6 @@ async function createProperty(req, res, next) {
 }
 
 async function setPropertyAsSold(req, res, next) {
-  //TODO: Patch property to be sold
   const { uid } = req.employee;
   const { propertyID } = req.params;
 
