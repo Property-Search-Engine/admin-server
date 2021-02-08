@@ -7,7 +7,7 @@ async function getFbUserOrCreate(email, password) {
         if (err.code == 'auth/user-not-found') {
             return await auth.createUser({ email, password })
         }
-        throw new err;
+        throw (err);
     }
 }
 
