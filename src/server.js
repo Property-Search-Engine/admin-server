@@ -15,7 +15,6 @@ const propertyRouter = require("./routes/property-routes");
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(json());
-app.use(auth());
 
 app.use(
   cors({
@@ -23,6 +22,7 @@ app.use(
   }),
 );
 
+app.use(auth());
 app.use("/user", userRouter);
 app.use("/properties", propertyRouter);
 app.use(errorMiddleware);

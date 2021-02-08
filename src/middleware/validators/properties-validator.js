@@ -28,14 +28,14 @@ const PropertySchema = Joi.object({
   kind: Joi.string().valid("Home", "Office").required(),
   price: Joi.number().integer().min(0).required(),
   description: Joi.string().trim().required(),
-  filters: Joi.string().valid(
+  filters: Joi.array.items(Joi.string().valid(
     "petsAllowed",
     "lift",
     "garden",
     "airConditioning",
     "terrace",
     "swimming",
-  ),
+  )),
   images: Joi.array().items(Joi.string().uri()).default([]),
   address: Joi.object({
     street: Joi.string().trim().required(),
