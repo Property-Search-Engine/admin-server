@@ -8,6 +8,7 @@ describe("App Config", () => {
         sign: expect.any(String),
         payload: expect.any(String)
       },
+      client_facing_url: expect.any(String),
       bcryptSaltRounds: expect.any(Number),
       db: {
         url: expect.any(String),
