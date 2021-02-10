@@ -4,7 +4,7 @@ const { json } = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const auth = require("./middleware/auth-middleware")
-const { validateJWT } = require("./utils/auth/generateJWT")
+const { validateJWT } = require("./utils/auth/JWTAuth")
 require("dotenv").config();
 
 const app = express();
