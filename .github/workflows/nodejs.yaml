@@ -34,7 +34,8 @@ jobs:
           MONGO_DB_URL_DEVELOPMENT: mongodb://docker:docker@mongo:27017/casame?authSource=admin
           MONGO_DB_URL_PRODUCTION: mongodb://docker:docker@mongo:27017/casame?authSource=admin
           MONGO_DB_URL_TEST: mongodb://docker:docker@mongo:27017/casame?authSource=admin
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_SECRET_SIGN: ${{ secrets.JWT_SECRET_SIGN }}
+          JWT_SECRET_PAYLOAD: ${{ secrets.JWT_SECRET_PAYLOAD }}
           FB_CERT_TYPE: ${{ secrets.FB_CERT_TYPE }}
           FB_CERT_PROJECT_ID: ${{ secrets.FB_CERT_PROJECT_ID }}
           FB_CERT_PRIVATE_KEY_ID: ${{ secrets.FB_CERT_PRIVATE_KEY_ID }}

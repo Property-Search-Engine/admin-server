@@ -9,7 +9,8 @@ const {
   MONGO_DB_URL_DEVELOPMENT,
   MONGO_DB_URL_TEST,
   PORT = 5000,
-  JWT_SECRET,
+  JWT_SECRET_PAYLOAD,
+  JWT_SECRET_SIGN,
   BCRYPT_SALT_ROUNDS,
   FB_CERT_TYPE,
   FB_CERT_PROJECT_ID,
@@ -26,7 +27,8 @@ const {
 const baseConfig = {
   port: PORT,
   jwt: {
-    secret: JWT_SECRET,
+    payload: JWT_SECRET_PAYLOAD,
+    sign: JWT_SECRET_SIGN
   },
   bcryptSaltRounds: parseInt(BCRYPT_SALT_ROUNDS),
   logger: {

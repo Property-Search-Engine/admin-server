@@ -70,7 +70,7 @@ async function stats(req, res, next) {
   if (myProperties.length > 0) {
     res.status(201).send({ data: myProperties[0] })
   } else {
-    next({ statusCode: 404, message: "User not found." })
+    next({ statusCode: 404, message: "No properties found." })
   }
 }
 
