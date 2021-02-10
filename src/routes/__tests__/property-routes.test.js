@@ -1,6 +1,6 @@
 const MOCK_EMPLOYEE_ID = "5d6ede6a0ba62570afcedd3a";
 const mockAuth = require("../../mock/middleware/auth-middleware")(MOCK_EMPLOYEE_ID, "pepe@mail.com");
-jest.mock('../../middleware/auth-middleware.js', () => mockAuth);
+jest.mock('../../middleware/auth-fb-middleware.js', () => mockAuth);
 
 const supertest = require("supertest");
 const testServer = require("../../mock/db-test-server");

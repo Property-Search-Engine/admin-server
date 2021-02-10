@@ -1,6 +1,6 @@
 const { auth } = require("../firebase/firebase");
 
-const authMiddleware = () => async (req, res, next) => {
+const authFbMiddleware = () => async (req, res, next) => {
     if (
         req.headers.authorization &&
         req.headers.authorization.startsWith("Bearer ")
@@ -28,4 +28,5 @@ const authMiddleware = () => async (req, res, next) => {
     }
 }
 
-module.exports = authMiddleware;
+
+module.exports = authFbMiddleware;

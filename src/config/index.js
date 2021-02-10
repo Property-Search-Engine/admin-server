@@ -11,6 +11,7 @@ const {
   PORT = 5000,
   JWT_SECRET_PAYLOAD,
   JWT_SECRET_SIGN,
+  CLIENT_FACING_URL,
   BCRYPT_SALT_ROUNDS,
   FB_CERT_TYPE,
   FB_CERT_PROJECT_ID,
@@ -38,6 +39,7 @@ const baseConfig = {
     trace: logger.trace,
     debug: logger.debug,
   },
+  client_facing_url: CLIENT_FACING_URL,
   firebase: {
     certConfig: {
       type: FB_CERT_TYPE,

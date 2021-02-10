@@ -14,14 +14,5 @@ function generateJWT() {
     next(error);
   }
 }
-function validateJWT(req, res, next) {
-  const authJWT = req.headers["auth"]
-  try {
-    const valid = jwt.verify(authJWT, config.jwt.sign);
-    if (valid) next()
-    else res.status(401).send({ message: "Not Authorized" })
-  } catch (error) {
-    next(error);
-  }
-}
-module.exports = { generateJWT, validateJWT };
+
+module.exports = { generateJWT };
