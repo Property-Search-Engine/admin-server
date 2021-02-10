@@ -5,12 +5,14 @@ async function register(req, res, next) {
   const { email, password } = req.body;
   //if registered Firebase -> checkif registered Mongo -> return Document
   try {
+    console.log("hey")
+
     const fbUser = await getFbUserOrCreate(email, password);
     let employee = await db.Employee.findById(fbUser.uid)
       .lean()
       .exec();
     if (!employee) {
-      employee = await db.Employee.create({ _id: fbUser.uid, ...req.body });
+      employee = await db.Employee.create({ _id: fbUser.uid, referer_id: req.employee.uid, ...req.body });
     }
     res.status(200).send({ data: employee })
   } catch (err) {
@@ -87,11 +89,21 @@ async function stats(req, res, next) {
     next(err);
   }
 }
+async function myRefered(req, res, next) {
+  const { uid } = req.employee
+  try {
+    const myReferd = await db.Employee.find({ referer_id: uid });
+    res.status(201).send({ data: myReferd })
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   register,
   login,
   deleteUser,
   update,
-  stats
+  stats,
+  myRefered
 };
