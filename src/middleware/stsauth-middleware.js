@@ -7,13 +7,13 @@ function generateJWT() {
         const payload = {
             sub: config.jwt.payload,
         };
-        console.log(payload, config.jwt.sign)
         const token = jwt.sign(payload, config.jwt.sign);
         return token;
     } catch (error) {
         next(error);
     }
 }
+
 function validateJWT(req, res, next) {
     const authJWT = req.headers["auth"]
     try {
@@ -24,4 +24,5 @@ function validateJWT(req, res, next) {
         next(error);
     }
 }
+
 module.exports = { generateJWT, validateJWT };

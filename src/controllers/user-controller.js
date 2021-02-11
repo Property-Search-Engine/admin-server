@@ -5,8 +5,6 @@ async function register(req, res, next) {
   const { email, password } = req.body;
   //if registered Firebase -> checkif registered Mongo -> return Document
   try {
-    console.log("hey")
-
     const fbUser = await getFbUserOrCreate(email, password);
     let employee = await db.Employee.findById(fbUser.uid)
       .lean()
