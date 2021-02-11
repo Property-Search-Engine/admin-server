@@ -19,8 +19,6 @@ app.use(helmet());
 app.use(json());
 app.use(cors());
 
-app.get("/admin", validateJWT, (req, res, next) => res.status(200).send("Authorized"))
-
 app.use("/client", clientFacingRouter);
 app.use(auth());
 app.use("/admin", adminRouter)

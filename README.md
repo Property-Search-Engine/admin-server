@@ -3,12 +3,11 @@
 </p>
 
 <p align="center">
+  <img alt="release" src="https://img.shields.io/github/v/release/Property-Search-Engine/admin-server?include_prereleases&sort=semver" />
   <a href="./LICENSE" target="_blank">
     <img alt="MIT License" src="https://img.shields.io/github/license/Property-Search-Engine/admin-server" />
   </a>
-
   <img alt="node-build" src="https://img.shields.io/github/workflow/status/Property-Search-Engine/admin-server/NodeJS?logo=node.js" />
-
   <img alt="pr" src="https://img.shields.io/github/issues-pr/Property-Search-Engine/admin-server" />
   <img alt="issues" src="https://img.shields.io/github/issues/Property-Search-Engine/admin-server" />
   <img alt="discord-chat" src="https://img.shields.io/discord/803927161806520340?logo=discord" />
@@ -30,6 +29,7 @@ $ cp .env.example .env
 ```
 
 Then setup all the needed env variables and everything should be up to go!
+
 ## Run
 
 We provide you with a set of tools that can help you to automate the building

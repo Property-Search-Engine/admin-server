@@ -87,6 +87,7 @@ async function stats(req, res, next) {
     next(err);
   }
 }
+
 async function myRefered(req, res, next) {
   const { uid } = req.employee
   try {
