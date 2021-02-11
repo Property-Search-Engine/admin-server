@@ -1,5 +1,4 @@
 const logger = require("loglevel");
-require("dotenv").config();
 
 logger.enableAll();
 
