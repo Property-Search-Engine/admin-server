@@ -31,6 +31,10 @@ const EmployeeSchema = new mongoose.Schema(
                 message: (props) => `${props.value} is not a valid email address`,
             },
         },
+        referer_id: {
+            type: String,
+            trim: true,
+        },
         phone: {
             type: String,
             required: [true, "The phone number field is required"],

@@ -1,4 +1,5 @@
 const logger = require("loglevel");
+require("dotenv").config();
 
 logger.enableAll();
 
@@ -8,6 +9,8 @@ const {
   MONGO_DB_URL_DEVELOPMENT,
   MONGO_DB_URL_TEST,
   PORT = 5000,
+  JWT_SECRET_PAYLOAD,
+  JWT_SECRET_SIGN,
   JWT_SECRET,
   BCRYPT_SALT_ROUNDS,
   FB_CERT_TYPE,
@@ -25,7 +28,8 @@ const {
 const baseConfig = {
   port: PORT,
   jwt: {
-    secret: JWT_SECRET,
+    payload: JWT_SECRET_PAYLOAD,
+    sign: JWT_SECRET_SIGN
   },
   bcryptSaltRounds: parseInt(BCRYPT_SALT_ROUNDS),
   logger: {

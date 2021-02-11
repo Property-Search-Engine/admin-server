@@ -8,7 +8,8 @@ const {
     login,
     deleteUser,
     update,
-    stats
+    stats,
+    myRefered
 } = require("../controllers/user-controller");
 
 userRouter.post("/register", validateRegisterData, register);
@@ -16,5 +17,6 @@ userRouter.post("/login", login);
 userRouter.delete("/", deleteUser);
 userRouter.put("/profile", validateUpdateData, update);
 userRouter.get("/statistics", stats);
+userRouter.get("/employees", myRefered);
 
 module.exports = userRouter;
