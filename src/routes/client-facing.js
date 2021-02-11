@@ -6,6 +6,6 @@ const router = Router();
 
 router.use(validateJWT);
 router.get("/properties", validateSearchFilters, searchProperty);
-router.get("/properties/:id", getPropertyById);
+router.get("/properties/:propertyID", getPropertyById);
 
 module.exports = router;

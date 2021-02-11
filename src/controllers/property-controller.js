@@ -2,7 +2,7 @@ const db = require("../models");
 const { searchFilteredProperties } = require("../utils/filters/index.js");
 
 async function searchProperty(req, res, next) {
-  const { uid } = req.employee;
+  const { uid } = req.employee || { uid: undefined };
   const filters = req.query;
 
   try {
@@ -17,9 +17,9 @@ async function searchProperty(req, res, next) {
 }
 
 async function getPropertyById(req, res, next) {
-  const { uid } = req.employee;
+  const { uid } = req.employee || { uid: undefined };
   const propertyID = req.params.propertyID;
-
+  
   try {
     const property = await db.Property.findById(propertyID)
       .lean()

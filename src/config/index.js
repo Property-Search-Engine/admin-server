@@ -1,4 +1,6 @@
 const logger = require("loglevel");
+const jwt = require("jsonwebtoken");
+
 require("dotenv").config();
 
 logger.enableAll();
@@ -28,7 +30,8 @@ const baseConfig = {
   port: PORT,
   jwt: {
     payload: JWT_SECRET_PAYLOAD,
-    sign: JWT_SECRET_SIGN
+    sign: JWT_SECRET_SIGN,
+    token: jwt.sign(JWT_SECRET_PAYLOAD, JWT_SECRET_SIGN)
   },
   bcryptSaltRounds: parseInt(BCRYPT_SALT_ROUNDS),
   logger: {

@@ -6,7 +6,8 @@ describe("App Config", () => {
       port: expect.any(String),
       jwt: {
         sign: expect.any(String),
-        payload: expect.any(String)
+        payload: expect.any(String),
+        token: expect.any(String)
       },
       bcryptSaltRounds: expect.any(Number),
       db: {

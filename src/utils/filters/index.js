@@ -1,3 +1,5 @@
+const db = require("../../models");
+
 function buildPropertyBaseMatchingRules(filters) {
     return {
         sold: filters.sold,
