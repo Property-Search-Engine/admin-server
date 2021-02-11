@@ -1,33 +1,12 @@
 const db = require("../models");
-const {
-  buildPropertyBaseMatchingRules,
-  buildHomeMatchingRules,
-  buildOfficeMatchingRules
-} = require("../utils/filters/index.js");
+const { searchFilteredProperties } = require("../utils/filters/index.js");
 
 async function searchProperty(req, res, next) {
   const { uid } = req.employee;
   const filters = req.query;
 
   try {
-    const properties = await
-      (filters.kind == "Home" ?
-        db.Home.find({
-          employee_id: uid,
-          ...buildPropertyBaseMatchingRules(filters),
-          ...buildHomeMatchingRules(filters)
-        })
-        : db.Office.find({
-          employee_id: uid,
-          ...buildPropertyBaseMatchingRules(filters),
-          ...buildOfficeMatchingRules(filters)
-        })
-      )
-        .sort({ created_at: -1 })
-        .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
-        .lean()
-        .exec()
-
+    const properties = await searchFilteredProperties(filters, uid);
     res.status(200).send({
       data: properties,
       error: null,

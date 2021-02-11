@@ -10,6 +10,7 @@ async function createJWT(req, res, next) {
     }
     return next({ statusCode: 404, message: "Cannot GET" })
 }
+
 module.exports = {
     createJWT
 };
