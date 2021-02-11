@@ -28,7 +28,7 @@ async function getPropertyById(req, res, next) {
     if (!property) {
       return next({ statusCode: 404, message: "Property not found" });
     }
-    if (property.employee_id != uid) {
+    if (uid && property.employee_id != uid) {
       return next({ statusCode: 403, message: "You cannot access this property" });
     }
 
