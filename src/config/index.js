@@ -1,8 +1,6 @@
 const logger = require("loglevel");
 const jwt = require("jsonwebtoken");
 
-require("dotenv").config();
-
 logger.enableAll();
 
 const {
