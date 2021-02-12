@@ -102,7 +102,7 @@ async function myRefered(req, res, next) {
 async function myBookings(req, res, next) {
   const { uid } = req.employee
   try {
-    const response = await fetch(`http://localhost:5000/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
+    const response = await fetch(`${config.client_facing_url}/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
       .then(response => response.json())
       .then(data => data);
 
