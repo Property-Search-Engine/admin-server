@@ -158,7 +158,7 @@ async function setStatus(req, res, next) {
   const { propertyID, status } = req.params;
   console.log(req.params)
   try {
-    const response = await fetch(`http://localhost:5000/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
+    const response = await fetch(`${config.client_server_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
       .then(response => response.json())
       .then(data => data);
 
