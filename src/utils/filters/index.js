@@ -36,21 +36,25 @@ function buildOfficeMatchingRules(filters) {
 }
 
 async function searchFilteredProperties(filters, _employeeId) {
+    const ITEMS_PER_PAGE = 15;
+    const { page = 1 } = filters;
     const rules = {
-      ...buildPropertyBaseMatchingRules(filters),
-      ...(filters.kind == "Home" ?
-        buildHomeMatchingRules(filters) :
-        buildOfficeMatchingRules(filters)
-      )
+        ...buildPropertyBaseMatchingRules(filters),
+        ...(filters.kind == "Home" ?
+            buildHomeMatchingRules(filters) :
+            buildOfficeMatchingRules(filters)
+        )
     }
     if (_employeeId) rules.employee_id = _employeeId;
-  
+
     return await (filters.kind == "Home" ? db.Home.find(rules) : db.Office.find(rules))
-      .sort({ created_at: -1 })
-      .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
-      .lean()
-      .exec()
-  }
+        .sort({ created_at: -1 })
+        .limit(ITEMS_PER_PAGE)
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
+        .lean()
+        .exec()
+}
 
 module.exports = {
     buildPropertyBaseMatchingRules,

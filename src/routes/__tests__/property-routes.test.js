@@ -84,6 +84,30 @@ describe("Private property routes", () => {
     expect(data[0].buildingUse).toBe("coWorking");
   })
 
+  it("can search by page", async () => {
+    const res = await request.get("/properties?kind=Office&page=1")
+      .set('Accept', 'application/json');
+    const data = res.body.data;
+
+    expect(res.status).toBe(200);
+    expect(data.length).toBeGreaterThanOrEqual(1);
+    expect(data[0].employee_id).toBe(MOCK_EMPLOYEE_ID);
+    expect(data[0].kind).toBe("Office");
+    expect(data[0].surface).toBeGreaterThan(100);
+    expect(data[0].price).toBeGreaterThanOrEqual(100);
+    expect(data[0].price).toBeLessThanOrEqual(300000);
+    expect(data[0].buildingUse).toBe("coWorking");
+  })
+
+  it("can search by non existent page empty", async () => {
+    const res = await request.get("/properties?kind=Office&page=2")
+      .set('Accept', 'application/json');
+    const data = res.body.data;
+
+    expect(res.status).toBe(200);
+    expect(data.length).toBe(0);
+  })
+
   it("can fail when wrong kind is provided", async () => {
     const res = await request.get("/properties?kind=patata")
       .set('Accept', 'application/json');
