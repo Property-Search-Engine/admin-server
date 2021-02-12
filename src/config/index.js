@@ -1,6 +1,5 @@
 const logger = require("loglevel");
 const jwt = require("jsonwebtoken");
-
 logger.enableAll();
 
 const {
@@ -30,7 +29,7 @@ const baseConfig = {
   jwt: {
     payload: JWT_SECRET_PAYLOAD,
     sign: JWT_SECRET_SIGN,
-    token: jwt.sign({sub: JWT_SECRET_PAYLOAD}, JWT_SECRET_SIGN)
+    token: jwt.sign({ sub: JWT_SECRET_PAYLOAD }, JWT_SECRET_SIGN)
   },
   client_facing_url: CLIENT_FACING_URL,
   bcryptSaltRounds: parseInt(BCRYPT_SALT_ROUNDS),

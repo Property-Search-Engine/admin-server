@@ -9,6 +9,7 @@ const {
   editProperty,
   deleteProperty,
   setPropertyAsSold,
+  setStatus
 } = require("../controllers/property-controller");
 
 const validateSearchFilters = require("../middleware/validators/filters-validator");
@@ -21,5 +22,7 @@ propertyRouter.post("/", validateCreateProperty, createProperty);
 propertyRouter.delete("/:propertyID", deleteProperty);
 propertyRouter.patch("/:propertyID/sold", setPropertyAsSold);
 propertyRouter.patch("/:propertyID", validateEditProperty, editProperty);
+propertyRouter.post("/:propertyID/:status", setStatus);
+
 
 module.exports = propertyRouter;

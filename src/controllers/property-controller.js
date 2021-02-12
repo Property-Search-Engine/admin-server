@@ -1,4 +1,11 @@
 const db = require("../models");
+const {
+  buildPropertyBaseMatchingRules,
+  buildHomeMatchingRules,
+  buildOfficeMatchingRules
+} = require("../utils/filters/index.js");
+const config = require("../config")
+const fetch = require("node-fetch");
 const { searchFilteredProperties } = require("../utils/filters/index.js");
 const { patchAddress } = require("../utils/bookings");
 
@@ -150,6 +157,19 @@ async function setPropertyAsSold(req, res, next) {
   }
 }
 
+async function setStatus(req, res, next) {
+  const { propertyID, status } = req.params;
+  try {
+    const response = await fetch(`${config.client_facing_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
+      .then(response => response.json())
+      .then(data => data);
+
+    res.status(200).send(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   searchProperty,
   getPropertyById,
@@ -157,4 +177,5 @@ module.exports = {
   createProperty,
   deleteProperty,
   setPropertyAsSold,
+  setStatus
 };

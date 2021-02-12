@@ -9,7 +9,8 @@ const {
     deleteUser,
     update,
     stats,
-    myRefered
+    myRefered,
+    myBookings
 } = require("../controllers/user-controller");
 
 userRouter.post("/register", validateRegisterData, register);
@@ -18,5 +19,6 @@ userRouter.delete("/", deleteUser);
 userRouter.put("/profile", validateUpdateData, update);
 userRouter.get("/statistics", stats);
 userRouter.get("/employees", myRefered);
+userRouter.get("/bookings", myBookings);
 
 module.exports = userRouter;
