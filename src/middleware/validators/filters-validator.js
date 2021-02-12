@@ -24,6 +24,7 @@ const filtersSchema = Joi.object({
     minPrice: Joi.number().integer().min(0).default(0),
     maxPrice: Joi.number().integer().min(0).default(Infinity),
     publicationDate: Joi.date().max("now").timestamp("javascript"),
+    city: Joi.string().trim().lowercase(),
     filters: stringArrayEnum("petsAllowed",
         "lift",
         "garden",
