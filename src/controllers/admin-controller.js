@@ -1,4 +1,3 @@
-const db = require("../models");
 const conf = require("../config")
 const { generateJWT } = require("../middleware/stsauth-middleware")
 
