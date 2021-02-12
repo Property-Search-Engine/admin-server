@@ -26,7 +26,7 @@ async function searchProperty(req, res, next) {
 async function getPropertyById(req, res, next) {
   const { uid } = req.employee || { uid: undefined };
   const propertyID = req.params.propertyID;
-  
+
   try {
     const property = await db.Property.findById(propertyID)
       .lean()
@@ -156,7 +156,6 @@ async function setPropertyAsSold(req, res, next) {
 
 async function setStatus(req, res, next) {
   const { propertyID, status } = req.params;
-  console.log(req.params)
   try {
     const response = await fetch(`${config.client_server_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
       .then(response => response.json())

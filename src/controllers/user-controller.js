@@ -1,5 +1,7 @@
 const db = require("../models");
 const { getFbUserOrCreate } = require("../utils/auth/firebase");
+const fetch = require("node-fetch")
+const config = require("../config")
 
 async function register(req, res, next) {
   const { email, password } = req.body;
@@ -97,6 +99,18 @@ async function myRefered(req, res, next) {
     next(err);
   }
 }
+async function myBookings(req, res, next) {
+  const { uid } = req.employee
+  try {
+    const response = await fetch(`http://localhost:5000/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
+      .then(response => response.json())
+      .then(data => data);
+
+    res.status(200).send({ data: response });
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   register,
@@ -104,5 +118,6 @@ module.exports = {
   deleteUser,
   update,
   stats,
-  myRefered
+  myRefered,
+  myBookings
 };
