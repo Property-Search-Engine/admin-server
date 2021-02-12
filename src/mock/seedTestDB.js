@@ -92,6 +92,24 @@ const PROPERTIES = [
   }
 ];
 
+const IDENTIFIED_PROPERTY = {
+  employee_id: "10m0nAK1ipeJHDnyBDNsKPWjBJR2",
+  kind: "Office",
+  buildingUse: "coWorking",
+  address: {
+    street: "C/Sant Antoni",
+    number: 50,
+    city: "Barcelonaa",
+    state: "Catalonia",
+    country: "Spain",
+    coordinates: {
+      lat: 0.1234,
+      long: 1.2314
+    }
+  },
+  ...property
+}
+
 const EMPLOYEES = [
   {
     _id: "5d6ede6a0ba62570afcedd3a",
@@ -122,7 +140,6 @@ async function seedTestPropertiesDB() {
 
   await db.Employee.create(employee1);
   await db.Employee.create(employee2);
-
   await db.Property.insertMany(PROPERTIES);
 }
 
@@ -150,15 +167,21 @@ function getMyOffice() {
 }
 
 function getTestEmployee1() {
-  return {...EMPLOYEES[0]};
+  return { ...EMPLOYEES[0] };
 }
 
 function getTestEmployee2() {
-  return {...EMPLOYEES[1]};
+  return { ...EMPLOYEES[1] };
 }
 
 function getTestAuthEmployee() {
-  return {...EMPLOYEES[2]};
+  return { ...EMPLOYEES[2] };
+}
+
+async function getIdenfitiedProperty() {
+  let doc = await db.Property.create(IDENTIFIED_PROPERTY);
+  IDENTIFIED_PROPERTY._id = `${doc._id}`;
+  return IDENTIFIED_PROPERTY;
 }
 
 module.exports = {
@@ -169,5 +192,6 @@ module.exports = {
   getTestEmployee1,
   getTestEmployee2,
   seedTestPropertiesDB,
-  getTestAuthEmployee
+  getTestAuthEmployee,
+  getIdenfitiedProperty
 };
