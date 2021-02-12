@@ -13,6 +13,7 @@ const {
   JWT_SECRET_SIGN,
   BCRYPT_SALT_ROUNDS,
   FB_CERT_TYPE,
+  CLIENT_FACING_URL,
   FB_CERT_PROJECT_ID,
   FB_CERT_PRIVATE_KEY_ID,
   FB_CERT_PRIVATE_KEY,
@@ -29,8 +30,9 @@ const baseConfig = {
   jwt: {
     payload: JWT_SECRET_PAYLOAD,
     sign: JWT_SECRET_SIGN,
-    token: jwt.sign(JWT_SECRET_PAYLOAD, JWT_SECRET_SIGN)
+    token: jwt.sign({sub: JWT_SECRET_PAYLOAD}, JWT_SECRET_SIGN)
   },
+  client_facing_url: CLIENT_FACING_URL,
   bcryptSaltRounds: parseInt(BCRYPT_SALT_ROUNDS),
   logger: {
     warn: logger.warn,

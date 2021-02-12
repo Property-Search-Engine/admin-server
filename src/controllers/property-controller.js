@@ -1,5 +1,6 @@
 const db = require("../models");
 const { searchFilteredProperties } = require("../utils/filters/index.js");
+const { patchAddress } = require("../utils/bookings");
 
 async function searchProperty(req, res, next) {
   const { uid } = req.employee || { uid: undefined };
@@ -19,7 +20,7 @@ async function searchProperty(req, res, next) {
 async function getPropertyById(req, res, next) {
   const { uid } = req.employee || { uid: undefined };
   const propertyID = req.params.propertyID;
-  
+
   try {
     const property = await db.Property.findById(propertyID)
       .lean()
@@ -87,6 +88,8 @@ async function editProperty(req, res, next) {
         })
         .lean()
         .exec();
+
+    await patchAddress(property._id, property.address);
 
     res.status(200).send({
       data: property,
