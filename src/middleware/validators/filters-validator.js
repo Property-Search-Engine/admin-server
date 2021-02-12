@@ -19,6 +19,7 @@ const officeFilters = {
 
 const filtersSchema = Joi.object({
     kind: Joi.string().valid("Home", "Office").required(),
+    page: Joi.number().integer().min(1),
     sold: Joi.boolean().default(false),
     surface: Joi.number().integer().min(0),
     minPrice: Joi.number().integer().min(0).default(0),
