@@ -34,8 +34,8 @@ async function login(req, res, next) {
 async function deleteUser(req, res, next) {
   const { uid } = req.employee
   try {
-    await db.Employee.findByIdAndDelete(uid);
-    await db.Property.deleteMany({ employee_id: uid });
+    const user = await db.Employee.findById(uid);
+    await user.remove()
     res.status(202).send({ message: "Employee deleted", error: null })
   } catch (err) {
     next(err);
