@@ -4,6 +4,8 @@ const {
   buildHomeMatchingRules,
   buildOfficeMatchingRules
 } = require("../utils/filters/index.js");
+const config = require("../config")
+const fetch = require("node-fetch");
 
 async function searchProperty(req, res, next) {
   const { uid } = req.employee;
@@ -168,6 +170,20 @@ async function setPropertyAsSold(req, res, next) {
   }
 }
 
+async function setStatus(req, res, next) {
+  const { propertyID, status } = req.params;
+  console.log(req.params)
+  try {
+    const response = await fetch(`http://localhost:5000/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.static_jwt, 'Content-Type': 'application/json' } })
+      .then(response => response.json())
+      .then(data => data);
+
+    res.status(200).send(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   searchProperty,
   getPropertyById,
@@ -175,4 +191,5 @@ module.exports = {
   createProperty,
   deleteProperty,
   setPropertyAsSold,
+  setStatus
 };
