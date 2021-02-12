@@ -19,11 +19,13 @@ const officeFilters = {
 
 const filtersSchema = Joi.object({
     kind: Joi.string().valid("Home", "Office").required(),
+    page: Joi.number().integer().min(1),
     sold: Joi.boolean().default(false),
     surface: Joi.number().integer().min(0),
     minPrice: Joi.number().integer().min(0).default(0),
     maxPrice: Joi.number().integer().min(0).default(Infinity),
     publicationDate: Joi.date().max("now").timestamp("javascript"),
+    city: Joi.string().trim().lowercase(),
     filters: stringArrayEnum("petsAllowed",
         "lift",
         "garden",

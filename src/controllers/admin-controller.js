@@ -1,4 +1,3 @@
-const db = require("../models");
 const conf = require("../config")
 const { generateJWT } = require("../middleware/stsauth-middleware")
 
@@ -10,6 +9,7 @@ async function createJWT(req, res, next) {
     }
     return next({ statusCode: 404, message: "Cannot GET" })
 }
+
 module.exports = {
     createJWT
 };

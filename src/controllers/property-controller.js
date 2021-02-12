@@ -4,30 +4,17 @@ const {
   buildHomeMatchingRules,
   buildOfficeMatchingRules
 } = require("../utils/filters/index.js");
+const config = require("../config")
+const fetch = require("node-fetch");
+const { searchFilteredProperties } = require("../utils/filters/index.js");
+const { patchAddress } = require("../utils/bookings");
 
 async function searchProperty(req, res, next) {
-  const { uid } = req.employee;
+  const { uid } = req.employee || { uid: undefined };
   const filters = req.query;
 
   try {
-    const properties = await
-      (filters.kind == "Home" ?
-        db.Home.find({
-          employee_id: uid,
-          ...buildPropertyBaseMatchingRules(filters),
-          ...buildHomeMatchingRules(filters)
-        })
-        : db.Office.find({
-          employee_id: uid,
-          ...buildPropertyBaseMatchingRules(filters),
-          ...buildOfficeMatchingRules(filters)
-        })
-      )
-        .sort({ created_at: -1 })
-        .select("_id employee_id sold kind bedRooms bathRooms address price surface buildingUse images")
-        .lean()
-        .exec()
-
+    const properties = await searchFilteredProperties(filters, uid);
     res.status(200).send({
       data: properties,
       error: null,
@@ -38,7 +25,7 @@ async function searchProperty(req, res, next) {
 }
 
 async function getPropertyById(req, res, next) {
-  const { uid } = req.employee;
+  const { uid } = req.employee || { uid: undefined };
   const propertyID = req.params.propertyID;
 
   try {
@@ -49,7 +36,7 @@ async function getPropertyById(req, res, next) {
     if (!property) {
       return next({ statusCode: 404, message: "Property not found" });
     }
-    if (property.employee_id != uid) {
+    if (uid && property.employee_id != uid) {
       return next({ statusCode: 403, message: "You cannot access this property" });
     }
 
@@ -108,6 +95,8 @@ async function editProperty(req, res, next) {
         })
         .lean()
         .exec();
+
+    await patchAddress(property._id, property.address);
 
     res.status(200).send({
       data: property,
@@ -168,6 +157,19 @@ async function setPropertyAsSold(req, res, next) {
   }
 }
 
+async function setStatus(req, res, next) {
+  const { propertyID, status } = req.params;
+  try {
+    const response = await fetch(`${config.client_facing_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
+      .then(response => response.json())
+      .then(data => data);
+
+    res.status(200).send(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   searchProperty,
   getPropertyById,
@@ -175,4 +177,5 @@ module.exports = {
   createProperty,
   deleteProperty,
   setPropertyAsSold,
+  setStatus
 };

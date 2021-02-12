@@ -1,5 +1,7 @@
 const db = require("../models");
 const { getFbUserOrCreate } = require("../utils/auth/firebase");
+const fetch = require("node-fetch")
+const config = require("../config")
 
 async function register(req, res, next) {
   const { email, password } = req.body;
@@ -34,8 +36,8 @@ async function login(req, res, next) {
 async function deleteUser(req, res, next) {
   const { uid } = req.employee
   try {
-    await db.Employee.findByIdAndDelete(uid);
-    await db.Property.deleteMany({ employee_id: uid });
+    const user = await db.Employee.findById(uid);
+    await user.remove()
     res.status(202).send({ message: "Employee deleted", error: null })
   } catch (err) {
     next(err);
@@ -97,6 +99,18 @@ async function myRefered(req, res, next) {
     next(err);
   }
 }
+async function myBookings(req, res, next) {
+  const { uid } = req.employee
+  try {
+    const response = await fetch(`${config.client_facing_url}/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
+      .then(response => response.json())
+      .then(data => data);
+
+    res.status(200).send({ data: response });
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   register,
@@ -104,5 +118,6 @@ module.exports = {
   deleteUser,
   update,
   stats,
-  myRefered
+  myRefered,
+  myBookings
 };
