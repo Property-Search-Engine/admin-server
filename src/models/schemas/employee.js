@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { Property } = require("../../models/properties-model");
+
 
 const EmployeeSchema = new mongoose.Schema(
     {
@@ -50,5 +52,8 @@ const EmployeeSchema = new mongoose.Schema(
         timestamps: true,
     },
 );
+EmployeeSchema.post("remove", async (employee) => {
+    await Property.deleteMany({ employee_id: employee._id });
+})
 
 module.exports = EmployeeSchema
