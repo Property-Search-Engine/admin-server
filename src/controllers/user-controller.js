@@ -44,6 +44,17 @@ async function deleteUser(req, res, next) {
   }
 }
 
+async function deleteOtherUser(req, res, next) {
+  const { uid } = req.params
+  try {
+    const user = await db.Employee.findByIdAndDelete(uid, { new: true });
+    await user.remove()
+    res.status(202).send({ message: "Employee deleted", error: null })
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function update(req, res, next) {
   const { uid } = req.employee;
   const { firstname, lastname, phone } = req.body;
@@ -105,7 +116,7 @@ async function myRefered(req, res, next) {
 async function myBookings(req, res, next) {
   const { uid } = req.employee
   try {
-    const response = await fetch(`${config.client_facing_url}/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
+    const response = await fetch(`http://localhost:5000/bookings/employees/${uid}`, { headers: { "auth": config.jwt.token } })
       .then(response => response.json())
       .then(data => data);
 
@@ -122,5 +133,6 @@ module.exports = {
   update,
   stats,
   myRefered,
-  myBookings
+  myBookings,
+  deleteOtherUser
 };

@@ -160,7 +160,7 @@ async function setPropertyAsSold(req, res, next) {
 async function setStatus(req, res, next) {
   const { propertyID, status } = req.params;
   try {
-    const response = await fetch(`${config.client_facing_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
+    const response = await fetch(`${config.client_server_url}/bookings/${propertyID}`, { method: "post", body: JSON.stringify({ status: status }), headers: { "auth": config.jwt.token, 'Content-Type': 'application/json' } })
       .then(response => response.json())
       .then(data => data);
 
