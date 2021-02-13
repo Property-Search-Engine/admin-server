@@ -78,6 +78,9 @@ async function stats(req, res, next) {
           "revenue": {
             "$sum": { $cond: ["$sold", "$price", 0] }
           },
+          "possibleRevenue": {
+            "$sum": { $cond: ["$sold", 0, "$price"] }
+          },
           "sold": { "$sum": { $cond: ["$sold", 1, 0] } },
           "available": { "$sum": { $cond: ["$sold", 0, 1] } }
         }
