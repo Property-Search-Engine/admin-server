@@ -37,7 +37,6 @@ async function deleteUser(req, res, next) {
   const { uid } = req.employee
   try {
     const user = await db.Employee.findById(uid);
-    await user.remove()
     res.status(202).send({ message: "Employee deleted", error: null })
   } catch (err) {
     next(err);
