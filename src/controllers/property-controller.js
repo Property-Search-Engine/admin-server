@@ -7,6 +7,7 @@ const {
 const config = require("../config")
 const fetch = require("node-fetch");
 const { searchFilteredProperties } = require("../utils/filters/index.js");
+const { patchAddress } = require("../utils/bookings");
 
 async function searchProperty(req, res, next) {
   const { uid } = req.employee || { uid: undefined };
@@ -94,6 +95,8 @@ async function editProperty(req, res, next) {
         })
         .lean()
         .exec();
+
+    await patchAddress(property._id, property.address);
 
     res.status(200).send({
       data: property,
