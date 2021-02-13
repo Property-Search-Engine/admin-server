@@ -44,6 +44,17 @@ async function deleteUser(req, res, next) {
   }
 }
 
+async function deleteOtherUser(req, res, next) {
+  const { uid } = req.params
+  try {
+    const user = await db.Employee.findByIdAndDelete(uid, { new: true });
+    await user.remove()
+    res.status(202).send({ message: "Employee deleted", error: null })
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function update(req, res, next) {
   const { uid } = req.employee;
   const { firstname, lastname, phone } = req.body;
@@ -77,6 +88,9 @@ async function stats(req, res, next) {
           "_id": "$employee_id",
           "revenue": {
             "$sum": { $cond: ["$sold", "$price", 0] }
+          },
+          "possibleRevenue": {
+            "$sum": { $cond: ["$sold", 0, "$price"] }
           },
           "sold": { "$sum": { $cond: ["$sold", 1, 0] } },
           "available": { "$sum": { $cond: ["$sold", 0, 1] } }
@@ -119,5 +133,6 @@ module.exports = {
   update,
   stats,
   myRefered,
-  myBookings
+  myBookings,
+  deleteOtherUser
 };
